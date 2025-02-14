@@ -1,3 +1,5 @@
+server:
+  port: 7001
 spring:
   data:
     elasticsearch:
@@ -6,5 +8,3 @@ spring:
   elasticsearch:
     uris: http://117.72.33.243:9200
     socket-timeout: 10s
-
-
