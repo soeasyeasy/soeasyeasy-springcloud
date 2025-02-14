@@ -3,21 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.soeasyeasy</groupId>
-        <artifactId>see</artifactId>
+        <artifactId>base-nosql</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>business</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>base-nosql-es</artifactId>
+    <packaging>jar</packaging>
 
-    <name>business</name>
+    <name>base-nosql-es</name>
     <url>http://maven.apache.org</url>
 
-    <modules>
-        <module>business-gateway</module>
-        <module>business-admin</module>
-        <module>business-test</module>
-    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -25,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
     </dependencies>
 </project>

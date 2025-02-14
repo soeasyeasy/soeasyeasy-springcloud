@@ -4,25 +4,26 @@
     <parent>
         <groupId>com.soeasyeasy</groupId>
         <artifactId>see</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>base</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>base</name>
     <url>http://maven.apache.org</url>
+
+    <modules>
+        <module>base-common</module>
+        <module>base-mq</module>
+        <module>base-nosql</module>
+        <module>base-sql</module>
+    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 </project>
