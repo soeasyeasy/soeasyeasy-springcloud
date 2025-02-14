@@ -31,6 +31,66 @@
         <flatten.version>1.3.0</flatten.version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!--底座-->
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>base-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>base-mq</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>base-nosql-es</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>base-nosql-mongo</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>base-nosql-redis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>base-sql</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!--业务底座-->
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>business-admin</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>business-gateway</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>business-test</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!--技术底座-->
+            <dependency>
+                <groupId>com.soeasyeasy</groupId>
+                <artifactId>technology-auth</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
