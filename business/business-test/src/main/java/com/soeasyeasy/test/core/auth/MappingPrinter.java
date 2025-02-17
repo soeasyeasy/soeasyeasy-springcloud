@@ -27,6 +27,16 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
             log.info("Mapped URL path: " + mapping);
             log.info("Controller Method: " + method.getMethod().getName());
             log.info("Controller Class: " + method.getBeanType().getName());
+            // 获取方法的入参
+            //Class<?>[] parameterTypes = method.getMethod().getParameters();
+            //for (Parameter parameter : method.getMethod().getParameters()) {
+            //    System.out.println("Parameter name: " + parameter.getName());
+            //    System.out.println("Parameter type: " + parameter.getType().getName());
+            //}
+
+            // 获取方法返回值类型
+            log.info("Return type: " + method.getReturnType());
+
             log.info("-----------------------------");
         });
     }

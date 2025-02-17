@@ -46,7 +46,7 @@ public class ProductController {
      * @param id
      * @return {@link Optional }<{@link Product }>
      */
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public Optional<Product> getProductById(@PathVariable String id) {
         return productService.findById(id);
     }

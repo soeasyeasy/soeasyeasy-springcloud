@@ -33,6 +33,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <compilerArguments>
+                        <parameters>true</parameters>
+                    </compilerArguments>
+                </configuration>
             </plugin>
         </plugins>
     </build>
