@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <name>base-nosql</name>
-    <url>http://maven.apache.org</url>
+
     <modules>
         <module>base-nosql-es</module>
         <module>base-nosql-redis</module>

@@ -3,21 +3,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.soeasyeasy</groupId>
-        <artifactId>technology</artifactId>
+        <artifactId>base</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>technology-auth</artifactId>
+    <artifactId>base-auth</artifactId>
     <packaging>jar</packaging>
 
-    <name>technology-auth</name>
-
+    <name>base-auth</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
+
     </dependencies>
 </project>
