@@ -1,15 +1,19 @@
 package com.soeasyeasy.test.controller;
 
-import com.soeasyeasy.test.pojo.dto.Product;
-import com.soeasyeasy.test.service.ProductService;
+import com.soeasyeasy.db.core.PageParam;
+import com.soeasyeasy.db.core.PageResult;
+import com.soeasyeasy.test.converter.ProductConverter;
+import com.soeasyeasy.test.entity.DO.ProductDO;
+import com.soeasyeasy.test.entity.DTO.ProductDTO;
+import com.soeasyeasy.test.service.ProductDbService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 /**
@@ -26,17 +30,17 @@ public class ProductController {
      * 产品服务
      */
     @Resource
-    private ProductService productService;
+    private ProductDbService productDbService;
 
     /**
      * 创建或更新产品
      *
      * @param product 产品
-     * @return {@link Product }
+     * @return {@link ProductDTO }
      */
     @PostMapping
-    public Product createOrUpdateProduct(@RequestBody Product product) {
-        return productService.saveProduct(product);
+    public Boolean createOrUpdateProduct(@RequestBody ProductDTO product) {
+        return productDbService.saveOrUpdate(ProductConverter.INSTANCE.dtoToEntity(product));
     }
 
 
@@ -44,11 +48,11 @@ public class ProductController {
      * 按 ID 获取产品
      *
      * @param id
-     * @return {@link Optional }<{@link Product }>
+     * @return {@link Optional }<{@link ProductDTO }>
      */
     @GetMapping("/get/{id}")
-    public Optional<Product> getProductById(@PathVariable String id) {
-        return productService.findById(id);
+    public ProductDTO getProductById(@PathVariable String id) {
+        return ProductConverter.INSTANCE.entityToDto(productDbService.getById(id));
     }
 
 
@@ -56,46 +60,41 @@ public class ProductController {
      * 按 ID 获取产品
      *
      * @param ids
-     * @return {@link List }<{@link Product }>
+     * @return {@link List }<{@link ProductDTO }>
      */
     @PostMapping("/getProductById")
-    public List<Product> getProductById(@RequestBody List<String> ids) {
-        return productService.findByIds(ids);
+    public List<ProductDTO> getProductById(@RequestBody List<String> ids) {
+        return ProductConverter.INSTANCE.entityToDto(productDbService.listByIds(ids));
     }
 
     /**
      * 按名称搜索
      *
      * @param name 名字
-     * @return {@link List }<{@link Product }>
+     * @return {@link List }<{@link ProductDTO }>
      */
     @GetMapping("/search")
-    public List<Product> searchByName(@RequestParam String name) {
-        return productService.findByName(name);
+    public List<ProductDTO> searchByName(@RequestParam String name) {
+        return ProductConverter.INSTANCE.entityToDto(productDbService.listByMap(new HashMap<>() {{
+            put("name", name);
+        }}));
     }
 
-
-    /**
-     * 按描述搜索
-     */
-    @GetMapping("/searchByDescription")
-    public List<Product> searchByDescription(@RequestParam String description) {
-        return productService.findByDescription(description);
-    }
 
     /**
      * 获取所有产品
      *
      * @param page 页
      * @param size 大小
-     * @return {@link Page }<{@link Product }>
+     * @return {@link Page }<{@link ProductDTO }>
      */
     @GetMapping
-    public Page<Product> getAllProducts(
+    public PageResult<ProductDTO> getAllProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return productService.findAll(pageable);
+        PageResult<ProductDO> pageResult = productDbService.pageList(new PageParam<ProductDO>(page, size));
+        return new PageResult<>(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(),
+                pageResult.getRecords().stream().map(ProductConverter.INSTANCE::entityToDto).collect(Collectors.toList()));
     }
 
     /**
@@ -106,7 +105,7 @@ public class ProductController {
      */
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable String id) {
-        productService.deleteProduct(id);
+        productDbService.removeById(id);
         return "Product deleted successfully!";
     }
 }

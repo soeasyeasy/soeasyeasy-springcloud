@@ -17,7 +17,7 @@
         <module>base-common</module>
         <module>base-mq</module>
         <module>base-nosql</module>
-        <module>base-sql</module>
+        <module>base-db</module>
         <module>base-auth</module>
     </modules>
 

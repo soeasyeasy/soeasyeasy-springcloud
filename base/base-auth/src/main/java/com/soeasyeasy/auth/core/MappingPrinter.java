@@ -13,6 +13,10 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author hc
+ * @date 2025/03/14
+ */
 @Component
 @Slf4j
 public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent> {

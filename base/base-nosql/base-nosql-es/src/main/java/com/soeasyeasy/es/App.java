@@ -1,4 +1,4 @@
-package com.soeasyeasy;
+package com.soeasyeasy.es;
 
 /**
  * Hello world!
