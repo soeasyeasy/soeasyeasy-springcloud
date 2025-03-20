@@ -1,6 +1,8 @@
 package com.soeasyeasy.db.core;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.soeasyeasy.common.entity.PageParam;
+import com.soeasyeasy.common.entity.PageResult;
 
 /**
  * 通用Service基类

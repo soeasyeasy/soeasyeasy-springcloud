@@ -3,6 +3,8 @@ package com.soeasyeasy.db.core;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.soeasyeasy.common.entity.PageParam;
+import com.soeasyeasy.common.entity.PageResult;
 
 /**
  * 通用Service基类实现

@@ -3,7 +3,7 @@
 // (powered by FernFlower decompiler)
 //
 
-package com.soeasyeasy.db.converter;
+package com.soeasyeasy.common.converter;
 
 import org.apache.commons.lang3.StringUtils;
 

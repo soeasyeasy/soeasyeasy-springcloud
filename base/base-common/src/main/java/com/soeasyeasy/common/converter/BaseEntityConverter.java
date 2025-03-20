@@ -1,4 +1,4 @@
-package com.soeasyeasy.db.converter;
+package com.soeasyeasy.common.converter;
 
 import java.util.List;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.soeasyeasy.db.core;
+package com.soeasyeasy.common.entity;
 
 import lombok.Data;
 

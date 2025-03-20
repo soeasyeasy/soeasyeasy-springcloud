@@ -1,7 +1,7 @@
 package com.soeasyeasy.test.controller;
 
-import com.soeasyeasy.db.core.PageParam;
-import com.soeasyeasy.db.core.PageResult;
+import com.soeasyeasy.common.entity.PageParam;
+import com.soeasyeasy.common.entity.PageResult;
 import com.soeasyeasy.test.converter.ProductConverter;
 import com.soeasyeasy.test.entity.DO.ProductDO;
 import com.soeasyeasy.test.entity.DTO.ProductDTO;
