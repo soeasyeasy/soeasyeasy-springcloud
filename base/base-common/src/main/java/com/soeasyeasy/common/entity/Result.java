@@ -1,5 +1,6 @@
 package com.soeasyeasy.common.entity;
 
+import com.soeasyeasy.common.constants.GlobalResCodeConstants;
 import com.soeasyeasy.common.exception.ServiceExceptionUtil;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.util.Objects;
  * 通用返回
  *
  * @param <T> 数据泛型
+ * @author hc
  */
 @Data
 public class Result<T> implements Serializable {

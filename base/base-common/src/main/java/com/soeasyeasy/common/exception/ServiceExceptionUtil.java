@@ -2,7 +2,7 @@ package com.soeasyeasy.common.exception;
 
 
 import com.google.common.annotations.VisibleForTesting;
-import com.soeasyeasy.common.entity.GlobalResCodeConstants;
+import com.soeasyeasy.common.constants.GlobalResCodeConstants;
 import com.soeasyeasy.common.entity.ResCode;
 import lombok.extern.slf4j.Slf4j;
 

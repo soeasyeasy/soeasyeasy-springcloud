@@ -1,6 +1,6 @@
 package com.soeasyeasy.test.converter;
 
-import com.soeasyeasy.db.converter.BaseEntityConverter;
+import com.soeasyeasy.common.converter.BaseEntityConverter;
 import com.soeasyeasy.test.entity.DO.ProductDO;
 import com.soeasyeasy.test.entity.DTO.ProductDTO;
 import org.mapstruct.Mapper;

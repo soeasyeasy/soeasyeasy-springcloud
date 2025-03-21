@@ -1,4 +1,6 @@
-package com.soeasyeasy.common.entity;
+package com.soeasyeasy.common.constants;
+
+import com.soeasyeasy.common.entity.ResCode;
 
 /**
  * 全局错误码枚举
