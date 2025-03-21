@@ -1,7 +1,6 @@
 package com.soeasyeasy.test.controller;
 
 import com.soeasyeasy.common.annotation.DisableGlobalResponse;
-import com.soeasyeasy.common.annotation.EnableGlobalResponse;
 import com.soeasyeasy.common.entity.PageParam;
 import com.soeasyeasy.common.entity.PageResult;
 import com.soeasyeasy.test.converter.ProductConverter;
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
  * @date 2025/02/14
  */
 @RestController
-@EnableGlobalResponse
 @RequestMapping("/products")
 public class ProductController {
 
@@ -108,7 +106,7 @@ public class ProductController {
      * @return {@link String }
      */
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable String id) {
+    public String deleteProduct(@PathVariable Long id) {
         productDbService.removeById(id);
         return "Product deleted successfully!";
     }
