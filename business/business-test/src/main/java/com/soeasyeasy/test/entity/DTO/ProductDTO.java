@@ -1,5 +1,6 @@
 package com.soeasyeasy.test.entity.DTO;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -10,9 +11,11 @@ import org.springframework.data.annotation.Id;
 public class ProductDTO {
     @Id
     private String id;
+    @NotNull
     private String name;
     private String description;
     private double price;
+
     private String status;
 
 }

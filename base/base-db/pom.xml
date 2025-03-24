@@ -40,9 +40,5 @@
             <groupId>com.soeasyeasy</groupId>
             <artifactId>base-common</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-        </dependency>
     </dependencies>
 </project>
