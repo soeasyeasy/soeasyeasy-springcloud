@@ -28,10 +28,12 @@ public class DocIntegrator {
 
     @PostConstruct
     public void init() {
+        long startTime = System.currentTimeMillis();
         Path rootPath = PathUtil.getCallerModuleRootPath();
         log.info("开始解析项目 Javadoc...路径：{}", rootPath);
         javadocCache.putAll(JavaDocParser.parseProject(rootPath));
-        log.info("Javadoc 解析完成，共缓存 {} 个类的文档：{}", javadocCache.size(), JSON.toJSONString(javadocCache));
+        long endTime = System.currentTimeMillis();
+        log.info("Javadoc 解析完成，耗时：{} ms，共缓存 {} 个类的文档：{}", endTime - startTime, javadocCache.size(), JSON.toJSONString(javadocCache));
     }
 
     /**

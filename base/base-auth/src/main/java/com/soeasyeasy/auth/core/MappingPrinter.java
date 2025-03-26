@@ -49,8 +49,10 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
     public void onApplicationEvent(ContextRefreshedEvent event) {
         // 确保只处理根上下文
         if (event.getApplicationContext().getParent() == null) {
+            long startTime = System.currentTimeMillis();
             collectApiEndpointsInfo();
-            log.info("Total API endpoints collected: {}", API_ENDPOINTS.size());
+            long endTime = System.currentTimeMillis();
+            log.info("Total API endpoints completed in {} ms,collected: {}", endTime - startTime, API_ENDPOINTS.size());
             // 这里可以添加持久化逻辑
             // saveToDatabase();
             // generateJsonFile();

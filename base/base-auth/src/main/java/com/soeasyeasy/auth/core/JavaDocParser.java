@@ -36,66 +36,6 @@ public class JavaDocParser {
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
-            //parseResult.ifSuccessful(cu -> {
-            //    String className = getClassName(cu);
-            //    //Map<String, Map<String, String>> classDocs = parseMethodComment(cu);
-            //    Map<String, Map<String, String>> classDocs = new HashMap<>();
-            //
-            //    cu.accept(new VoidVisitorAdapter<Void>() {
-            //        @Override
-            //        public void visit(MethodDeclaration method, Void arg) {
-            //            // 构建方法签名
-            //            String methodSignature = buildMethodSignature(method);
-            //            Map<String, String> paramDocs = new HashMap<>();
-            //
-            //            // 解析方法 Javadoc
-            //            method.getJavadocComment().ifPresent(javadoc -> {
-            //                javadoc.parse().getBlockTags().stream()
-            //                        .filter(tag -> "param".equals(tag.getTagName()))
-            //                        .forEach(paramTag -> {
-            //                            String paramName = paramTag.getName().orElse("");
-            //                            String description = paramTag.getContent().toText();
-            //                            paramDocs.put(paramName, description.trim());
-            //                        });
-            //            });
-            //
-            //            // 自动关联未明确注释的参数
-            //            method.getParameters().forEach(param -> {
-            //                String paramName = param.getNameAsString();
-            //                if (!paramDocs.containsKey(paramName)) {
-            //                    paramDocs.put(paramName, inferDescription(paramName));
-            //                }
-            //            });
-            //
-            //            classDocs.put(methodSignature, paramDocs);
-            //            super.visit(method, arg);
-            //        }
-            //    }, null);
-            //    //parseClassComment(cu, classDocs, className);
-            //    cu.findAll(ClassOrInterfaceDeclaration.class).forEach(classOrInterface -> {
-            //        // 获取Javadoc
-            //        if (classOrInterface.getJavadoc().isPresent()) {
-            //            classDocs.put(className + "#class", new HashMap<>(1) {{
-            //                put("class", classOrInterface.getJavadoc().get().toText());
-            //            }});
-            //        }
-            //    });
-            //    cu.accept(new VoidVisitorAdapter<Void>() {
-            //        @Override
-            //        public void visit(FieldDeclaration fieldDeclaration, Void arg) {
-            //            super.visit(fieldDeclaration, arg);
-            //            // 获取字段的Javadoc注释
-            //            if (fieldDeclaration.getJavadoc().isPresent()) {
-            //                classDocs.put(fieldDeclaration.getVariables().get(0).getName().asString(), new HashMap<>(1) {{
-            //                    put("javadoc", fieldDeclaration.getJavadoc().get().toText());
-            //                }});
-            //            }
-            //        }
-            //    }, null);
-            //
-            //    result.put(className, classDocs);
-            //});
-
             parseResult.ifSuccessful(cu -> {
                 String className = getClassName(cu);
                 Map<String, Map<String, Object>> classDocs = new LinkedHashMap<>(); // 保持顺序
