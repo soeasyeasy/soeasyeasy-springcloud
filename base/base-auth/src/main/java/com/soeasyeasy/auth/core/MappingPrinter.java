@@ -1,7 +1,9 @@
 package com.soeasyeasy.auth.core;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONWriter;
 import com.soeasyeasy.auth.entity.ApiEndpointInfo;
+import com.soeasyeasy.auth.entity.ModelInfo;
 import com.soeasyeasy.auth.entity.ParamInfo;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +31,8 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
 
     @Resource
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
-
+    @Resource
+    DocIntegrator docIntegrator;
     // 存储所有接口信息
     private static final List<ApiEndpointInfo> API_ENDPOINTS = new ArrayList<>();
 
@@ -38,9 +41,9 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
     private List<String> excludedControllers;
 
     private boolean isExcludedController(HandlerMethod handlerMethod) {
-        return excludedControllers.contains(
-                handlerMethod.getBeanType().getName());
+        return excludedControllers.contains(handlerMethod.getBeanType().getName());
     }
+
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -54,6 +57,9 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
         }
     }
 
+    /**
+     * 收集 API 终端节点信息
+     */
     private void collectApiEndpointsInfo() {
         Map<RequestMappingInfo, HandlerMethod> handlerMethods =
                 requestMappingHandlerMapping.getHandlerMethods();
@@ -69,13 +75,21 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
             setParametersInfo(endpoint, handlerMethod);
             // 设置返回类型
             setReturnTypeInfo(endpoint, handlerMethod);
-
+            //补充javaDoc文档
+            docIntegrator.enhanceApiInfo(endpoint);
             API_ENDPOINTS.add(endpoint);
-            log.info("Collected API endpoint: {}", JSON.toJSONString(endpoint));
+            log.info("Collected API endpoint: {}", JSON.toJSONString(endpoint, JSONWriter.Feature.PrettyFormat));
         });
     }
 
 
+    /**
+     * 设置基本信息
+     *
+     * @param endpoint      端点
+     * @param mapping       映射
+     * @param handlerMethod 处理程序方法
+     */
     private void setBasicInfo(ApiEndpointInfo endpoint,
                               RequestMappingInfo mapping,
                               HandlerMethod handlerMethod) {
@@ -102,8 +116,15 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
         // Content-Type相关
         //endpoint.setConsumes(String.join(",", mapping.getConsumesCondition().getConsumableMediaTypes()));
         //endpoint.setProduces(String.join(",", mapping.getProducesCondition().getProducibleMediaTypes()));
+
     }
 
+    /**
+     * 设置参数信息
+     *
+     * @param endpoint      端点
+     * @param handlerMethod 处理程序方法
+     */
     private void setParametersInfo(ApiEndpointInfo endpoint,
                                    HandlerMethod handlerMethod) {
         Parameter[] parameters = handlerMethod.getMethod().getParameters();
@@ -119,7 +140,7 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
             }
 
             // 参数类型
-            paramInfo.setType(parameter.getType().getName());
+            paramInfo.setType(parameter.getType().getSimpleName());
 
             // 处理注解
             Arrays.stream(parameter.getAnnotations())
@@ -143,12 +164,137 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
             endpoint.getParameters().add(paramInfo);
         }
     }
+    //
+    ///**
+    // * 设置返回类型信息
+    // *
+    // * @param endpoint      端点
+    // * @param handlerMethod 处理程序方法
+    // */
+    //private void setReturnTypeInfo(ApiEndpointInfo endpoint,
+    //                               HandlerMethod handlerMethod) {
+    //    Method method = handlerMethod.getMethod();
+    //    ResolvableType resolvableType = ResolvableType.forMethodReturnType(method);
+    //    Class<?> returnType = resolvableType.getRawClass();
+    //    ModelInfo modelInfo = new ModelInfo();
+    //    if (ModelParser.isComplexType(returnType)) {
+    //        modelInfo = ModelParser.parseModel(returnType);
+    //        modelInfo.setComplexType(true);
+    //        endpoint.setReturnType(modelInfo);
+    //    }
+    //    modelInfo.setClassName(returnType.getName());
+    //    endpoint.setReturnType(modelInfo);
+    //}
 
-    private void setReturnTypeInfo(ApiEndpointInfo endpoint,
-                                   HandlerMethod handlerMethod) {
+    /**
+     * 设置返回类型信息（支持泛型嵌套解析）
+     *
+     * @param endpoint      API端点信息
+     * @param handlerMethod 处理方法
+     */
+    private void setReturnTypeInfo(ApiEndpointInfo endpoint, HandlerMethod handlerMethod) {
         Method method = handlerMethod.getMethod();
         ResolvableType resolvableType = ResolvableType.forMethodReturnType(method);
-        endpoint.setReturnType(resolvableType.getType().getTypeName());
+
+        // 递归解析类型信息
+        ModelInfo modelInfo = parseResolvableType(resolvableType);
+
+        endpoint.setReturnType(modelInfo);
+    }
+
+    /**
+     * 递归解析ResolvableType
+     */
+    private ModelInfo parseResolvableType(ResolvableType resolvableType) {
+        ModelInfo modelInfo = new ModelInfo();
+        Class<?> rawType = resolvableType.resolve();
+
+        // 基础类型信息
+        modelInfo.setClassName(resolvableType.toString());
+        modelInfo.setComplexType(ModelParser.isComplexType(rawType));
+
+        // 处理数组类型
+        if (rawType.isArray()) {
+            handleArrayType(modelInfo, resolvableType);
+        }
+        // 处理集合类型（List/Set等）
+        else if (Collection.class.isAssignableFrom(rawType)) {
+            handleCollectionType(modelInfo, resolvableType);
+        }
+        // 处理Map类型
+        else if (Map.class.isAssignableFrom(rawType)) {
+            handleMapType(modelInfo, resolvableType);
+        }
+        // 处理普通对象
+        else if (ModelParser.isComplexType(rawType)) {
+            handleComplexType(modelInfo, resolvableType);
+        }
+
+        return modelInfo;
+    }
+
+    /**
+     * 处理数组类型
+     */
+    private void handleArrayType(ModelInfo modelInfo, ResolvableType resolvableType) {
+        ResolvableType componentType = resolvableType.getComponentType();
+        ModelInfo componentModel = parseResolvableType(componentType);
+        //modelInfo.setComponentType(componentModel);
+        modelInfo.setFields(ModelParser.parseModel(resolvableType.resolve()).getFields());
+    }
+
+    /**
+     * 处理集合类型
+     */
+    private void handleCollectionType(ModelInfo modelInfo, ResolvableType resolvableType) {
+        // 获取泛型参数（集合元素类型）
+        ResolvableType genericType = resolvableType.getGeneric(0);
+        if (genericType != ResolvableType.NONE) {
+            ModelInfo genericModel = parseResolvableType(genericType);
+            modelInfo.setGenericTypes(Collections.singletonList(genericModel));
+            modelInfo.setGenericFlag(true);
+        }
+        modelInfo.setFields(ModelParser.parseModel(resolvableType.resolve()).getFields());
+    }
+
+    /**
+     * 处理Map类型
+     */
+    private void handleMapType(ModelInfo modelInfo, ResolvableType resolvableType) {
+        List<ModelInfo> generics = new ArrayList<>(2);
+
+        // Key类型
+        ResolvableType keyType = resolvableType.getGeneric(0);
+        if (keyType != ResolvableType.NONE) {
+            generics.add(parseResolvableType(keyType));
+        }
+
+        // Value类型
+        ResolvableType valueType = resolvableType.getGeneric(1);
+        if (valueType != ResolvableType.NONE) {
+            generics.add(parseResolvableType(valueType));
+        }
+
+        modelInfo.setGenericTypes(generics);
+        modelInfo.setFields(ModelParser.parseModel(resolvableType.resolve()).getFields());
+    }
+
+    /**
+     * 处理复杂对象类型
+     */
+    private void handleComplexType(ModelInfo modelInfo, ResolvableType resolvableType) {
+        // 解析当前类型字段
+        modelInfo.setFields(ModelParser.parseModel(resolvableType.resolve()).getFields());
+
+        // 递归处理泛型参数（如自定义泛型类）
+        List<ModelInfo> generics = new ArrayList<>();
+        for (int i = 0; i < resolvableType.getGenerics().length; i++) {
+            ResolvableType generic = resolvableType.getGeneric(i);
+            if (generic != ResolvableType.NONE) {
+                generics.add(parseResolvableType(generic));
+            }
+        }
+        modelInfo.setGenericTypes(generics);
     }
 
     // 获取收集的API信息（供其他组件使用）

@@ -12,6 +12,12 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+/**
+ * 模型解析器
+ *
+ * @author hc
+ * @date 2025/03/24
+ */
 public class ModelParser {
     // 已解析的模型缓存（防止循环引用）
     private static final Map<String, ModelInfo> PARSED_MODELS = new ConcurrentHashMap<>();
@@ -87,6 +93,7 @@ public class ModelParser {
                 // 递归解析复杂类型（非基础类型）
                 if (isComplexType(field.getType())) {
                     fieldInfo.setModelInfo(parseModel(field.getType(), depth + 1));
+                    fieldInfo.setComplexType(true);
                 }
                 modelInfo.getFields().add(fieldInfo);
             }

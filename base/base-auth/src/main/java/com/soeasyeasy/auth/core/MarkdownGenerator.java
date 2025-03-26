@@ -4,16 +4,21 @@ import cn.hutool.core.io.FileUtil;
 import com.soeasyeasy.auth.entity.ApiEndpointInfo;
 import com.soeasyeasy.auth.entity.ModelInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * api Markdown 生成器
+ *
+ * @author hc
+ * @date 2025/03/24
+ */
 public class MarkdownGenerator {
     // 在启动完成后生成文档
-    @EventListener(ContextRefreshedEvent.class)
+    //@EventListener(ContextRefreshedEvent.class)
+    //@ConditionalOnExpression("false")
     public void generateDocumentation() {
         List<ApiEndpointInfo> endpoints = MappingPrinter.getApiEndpoints();
         String markdown = MarkdownGenerator.generateDoc(endpoints);

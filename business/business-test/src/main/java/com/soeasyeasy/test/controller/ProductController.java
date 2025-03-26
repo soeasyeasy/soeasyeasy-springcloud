@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * 产品
+ * 产品控制层
  *
  * @author hc
  * @date 2025/02/14
@@ -48,7 +48,7 @@ public class ProductController {
     /**
      * 按 ID 获取产品
      *
-     * @param id
+     * @param id 主键
      * @return {@link Optional }<{@link ProductDTO }>
      */
     @GetMapping("/get/{id}")
@@ -61,7 +61,7 @@ public class ProductController {
     /**
      * 按 ID 获取产品
      *
-     * @param ids
+     * @param ids 主键集合
      * @return {@link List }<{@link ProductDTO }>
      */
     @PostMapping("/getProductById")
@@ -102,7 +102,7 @@ public class ProductController {
     /**
      * 删除产品
      *
-     * @param id 身份证
+     * @param id 主键
      * @return {@link String }
      */
     @DeleteMapping("/{id}")
