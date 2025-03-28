@@ -16,36 +16,26 @@ technolgy:技术<br>
 
 ### 全自动解析
 
-- **零注解侵入** - 无需任何Swagger/OpenAPI注解
-- **方法级抓取** - 自动识别`@Controller`和`@RestController`
-- **智能参数识别** - 支持`@RequestParam`/`@PathVariable`/`@RequestBody`
-- **递归类型解析** - 自动展开DTO/Entity的嵌套结构
+- **零注解侵入** - 无需任何Swagger/OpenAPI注解 ✅
+- **方法级抓取** - 自动识别`@Controller`和`@RestController` ✅
+- **智能参数识别** - 支持`@RequestParam`/`@PathVariable`/`@RequestBody` ✅
+- **递归类型解析** - 自动展开DTO/Entity的嵌套结构 ✅
 
 ### 智能文档生成
 
-- **泛型支持** - 完美处理`List<T>`/`Map<K,V>`等复杂类型
+- **泛型支持** - 完美处理`List<T>`/`Map<K,V>`等复杂类型 ✅
 - **多格式输出** - 支持Markdown/HTML/OpenAPI 3.0
 - **变更感知** - 增量更新只解析修改的类
 - **多级缓存** - 内存+磁盘缓存提升性能
 
 ### 企业级功能
 
-- **安全过滤** - 支持排除敏感接口
-- **校验集成** - 自动识别JSR303验证规则
+- **安全过滤** - 支持排除敏感接口 ✅
+- **校验集成** - 自动识别JSR303验证规则 ✅
 - **多语言支持** - 文档内容国际化
 - **监控集成** - 提供API变更日志
 
 ## 📦 快速开始
-
-### 添加依赖
-
-```xml
-<dependency>
-    <groupId>com.soeasyeasy</groupId>
-    <artifactId>api-doc-generator</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
 
 ### 基础配置
 
@@ -92,26 +82,6 @@ api-doc:
       version: 1.2.0
 ```
 
-### 类型别名
-
-```java
-
-@TypeAlias(name = "用户信息", description = "包含基础用户数据")
-public class UserVO {
-    //...
-}
-```
-
-### 监控配置
-
-```yaml
-management:
-  endpoints:
-    web:
-      exposure:
-        include: apidoc
-```
-
 ## 📄 文档示例
 
 ### 生成的Markdown
@@ -137,36 +107,6 @@ management:
 | id | Long | 用户唯一ID |
 | email | String | 验证过的邮箱 |
 ```
-
-### 生成的OpenAPI
-
-```yaml
-paths:
-  /api/v1/users:
-    post:
-      summary: 创建新用户
-      parameters:
-        - name: name
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 用户创建结果
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserVO'
-```
-
-## 🚀 性能表现
-
-| 场景          | 全量解析  | 增量解析  |
-|-------------|-------|-------|
-| 100个简单接口    | 320ms | 25ms  |
-| 500接口+复杂DTO | 1.8s  | 120ms |
-| 1000接口+深度嵌套 | 3.2s  | 240ms |
 
 ## 📚 最佳实践
 
