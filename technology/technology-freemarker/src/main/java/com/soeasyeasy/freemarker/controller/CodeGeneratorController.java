@@ -1,6 +1,5 @@
 package com.soeasyeasy.freemarker.controller;
 
-import com.soeasyeasy.common.entity.Result;
 import com.soeasyeasy.freemarker.entity.TableInfo;
 import com.soeasyeasy.freemarker.service.CodeGeneratorService;
 import jakarta.servlet.ServletOutputStream;
@@ -18,12 +17,13 @@ public class CodeGeneratorController {
     private final CodeGeneratorService codeGeneratorService;
 
     @GetMapping("/tables")
-    public Result<List<String>> getTables() throws SQLException {
-        return Result.success(codeGeneratorService.getTables());
+    public List<String> getTables() throws SQLException {
+        return codeGeneratorService.getTables();
     }
 
-    @PostMapping("/generate")
-    public void generateCode(@RequestBody String tableName, HttpServletResponse response) throws Exception {
+    @PostMapping("/generate/{tableName}")
+    public void generateCode(@PathVariable String tableName, HttpServletResponse response) throws Exception {
+        codeGeneratorService.testMetadata();
         TableInfo tableInfo = codeGeneratorService.getTableInfo(tableName);
         byte[] data = codeGeneratorService.generateCode(tableInfo);
 

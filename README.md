@@ -4,6 +4,8 @@ base:底座<br>
 buseness:业务<br>
 technolgy:技术<br>
 
+# [base-auth](base%2Fbase-auth)
+
 ```markdown
 # API 文档生成工具
 
@@ -50,7 +52,7 @@ api-doc:
     - com.example.security.*
 ```
 
-### 生成文档
+## 一、生成文档
 
 ```java
 
@@ -67,7 +69,7 @@ public class DocController {
 }
 ```
 
-## 🛠️ 进阶配置
+## 二、🛠️ 进阶配置
 
 ### 输出定制
 
@@ -82,7 +84,7 @@ api-doc:
       version: 1.2.0
 ```
 
-## 📄 文档示例
+## 三、📄 文档示例
 
 ### 生成的Markdown
 
@@ -108,7 +110,7 @@ api-doc:
 | email | String | 验证过的邮箱 |
 ```
 
-## 📚 最佳实践
+## 四、📚 最佳实践
 
 1. 启用编译参数保留参数名：
 
@@ -137,29 +139,54 @@ api-doc:
       - com.example.admin.*
 ```
 
-## ⚙️ 扩展开发
+[//]: # (## 五、⚙️ 扩展开发 )
 
-### 自定义解析器
+[//]: # ()
 
-```java
-public class CustomParser extends BaseParser {
-    @Override
-    protected void processMethod(Method method) {
-        // 添加自定义逻辑
-    }
-}
-```
+[//]: # (### 自定义解析器)
 
-### 添加新输出格式
+[//]: # ()
 
-1. 实现`DocRenderer`接口
-2. 注册到`RendererRegistry`
-3. 通过`output-format`配置启用
+[//]: # (```java)
 
-## 📜 协议许可
+[//]: # (public class CustomParser extends BaseParser {)
 
-MIT License © 2024 SoEasyTech
+[//]: # (    @Override)
 
-```
+[//]: # (    protected void processMethod&#40;Method method&#41; {)
 
-> 提示：建议搭配[示例项目](https://github.com/example/api-doc-demo)查看完整实现
+[//]: # (        // 添加自定义逻辑)
+
+[//]: # (    })
+
+[//]: # (})
+
+[//]: # (```)
+
+[//]: # ()
+
+[//]: # (### 添加新输出格式)
+
+[//]: # ()
+
+[//]: # (1. 实现`DocRenderer`接口)
+
+[//]: # (2. 注册到`RendererRegistry`)
+
+[//]: # (3. 通过`output-format`配置启用)
+
+[//]: # ()
+
+[//]: # (## 📜 协议许可)
+
+[//]: # ()
+
+[//]: # (MIT License © 2024 SoEasyTech)
+
+[//]: # ()
+
+[//]: # (```)
+
+[//]: # ()
+
+[//]: # (> 提示：建议搭配[示例项目]&#40;https://github.com/example/api-doc-demo&#41;查看完整实现)

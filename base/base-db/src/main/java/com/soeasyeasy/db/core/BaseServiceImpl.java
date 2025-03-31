@@ -14,7 +14,7 @@ import com.soeasyeasy.common.entity.PageResult;
  * @author hc
  * @date 2025/03/14
  */
-public abstract class BaseServiceImpl<M extends BaseMapper<T>, T>
+public class BaseServiceImpl<M extends BaseMapper<T>, T>
         extends ServiceImpl<M, T> implements BaseService<T> {
 
     @Override

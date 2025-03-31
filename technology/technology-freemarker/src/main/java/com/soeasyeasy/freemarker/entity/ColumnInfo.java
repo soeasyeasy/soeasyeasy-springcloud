@@ -2,6 +2,8 @@ package com.soeasyeasy.freemarker.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ColumnInfo {
     // 原始列信息
@@ -14,4 +16,8 @@ public class ColumnInfo {
     private String javaField;      // Java字段名（如：createTime）
     private String javaType;       // Java类型（如：LocalDateTime）
     private String jdbcType;       // JDBC类型（如：TIMESTAMP）
+
+    private String reqJavaType;
+    private String reqJavaField;
+    private List<String> validations;
 }
