@@ -4,6 +4,97 @@ base:底座<br>
 buseness:业务<br>
 technolgy:技术<br>
 
+相关功能正在实现中 ✅已初步实现 代码结构还需调整 文档内容暂时仅供参考
+
+# [technology-freemarker](technology%2Ftechnology-freemarker)
+
+## 代码生成工具 - Spring Boot + MyBatis Plus + Vue3
+
+### 一、 ✨ 特性功能
+
+#### 后端功能
+
+- **全自动 CRUD 生成**  
+  根据数据库表结构生成：
+    - 实体类（Entity） ✅
+    - Mapper 接口及 XML ✅
+    - Service 接口及实现 ✅
+    - RESTful Controller ✅
+    - 分页查询封装
+
+- **对象分层转换**  
+  通过 MapStruct 自动生成：
+    - 请求对象（Req）：接收前端参数，集成验证注解 ✅
+    - 数据传输对象（DTO）：服务层间业务数据传输 ✅
+    - 数据库实体（Entity）：直接映射表结构 ✅
+
+- **智能类型映射**
+    - 自动识别数据库类型 → Java 类型（如 `BIGINT` → `Long`） ✅
+    - 时间类型自动转换（`LocalDateTime` ↔ 字符串） ✅
+    - 支持自定义类型扩展
+
+- **验证注解集成**  
+  根据表结构自动添加： ✅
+    - `@NotNull` / `@NotBlank`
+    - `@Size(max = ?)`
+    - `@Pattern`（需扩展配置）
+
+#### 前端功能
+
+- **Vue3 组件生成**  
+  生成基础管理页面：
+    - 列表展示（分页查询）
+    - 表单提交（增删改查）
+    - 搜索过滤功能
+    - Axios 接口封装
+
+- **Element Plus 集成**  
+  自动生成符合 Element Plus 规范的：
+    - 表格组件
+    - 表单验证
+    - 弹窗交互
+
+#### 高级功能
+
+- **模板引擎驱动**  
+  基于 FreeMarker 的可扩展模板系统：
+    - 支持自定义模板覆盖
+    - 多模板策略（不同业务场景）
+    - 模板变量智能填充
+
+- **数据库元数据解析**  
+  支持：
+    - 多表关系分析
+    - 主键自动识别
+    - 字段注释映射
+    - 跨数据库兼容（MySQL/PostgreSQL）
+
+- **代码压缩打包**  
+  生成 ZIP 压缩包包含：
+    - 标准化包结构
+    - 完整 Maven 依赖
+    - 开箱即用配置
+
+### 🚀 快速开始
+
+#### 环境要求
+
+- JDK 17+
+- MySQL 8.0+
+- Node.js 16+
+- Maven 3.8+
+
+#### 后端配置
+
+1. **数据库连接**  
+   修改 `application.yml`：
+   ```yaml
+   spring:
+     datasource:
+       url: jdbc:mysql://localhost:3306/your_db?useSSL=false
+       username: root
+       password: 123456
+
 # [base-auth](base%2Fbase-auth)
 
 ```markdown
