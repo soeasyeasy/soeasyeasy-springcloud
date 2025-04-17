@@ -1,7 +1,6 @@
 package com.soeasyeasy.common.entity;
 
 import com.soeasyeasy.common.constants.GlobalResCodeConstants;
-import com.soeasyeasy.common.exception.ServiceExceptionUtil;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -49,12 +48,12 @@ public class Result<T> implements Serializable {
         return result;
     }
 
-    public static <T> Result<T> error(ResCode errorCode, Object... params) {
-        Result<T> result = new Result<>();
-        result.code = errorCode.getCode();
-        result.msg = ServiceExceptionUtil.doFormat(errorCode.getCode(), errorCode.getMsg(), params);
-        return result;
-    }
+    //public static <T> Result<T> error(ResCode errorCode, Object... params) {
+    //    Result<T> result = new Result<>();
+    //    result.code = errorCode.getCode();
+    //    result.msg = ServiceExceptionUtil.doFormat(errorCode.getCode(), errorCode.getMsg(), params);
+    //    return result;
+    //}
 
     public static <T> Result<T> error(ResCode errorCode) {
         return error(errorCode.getCode(), errorCode.getMsg());

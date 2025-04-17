@@ -41,6 +41,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result<?> handleAllException(Exception e) {
         log.error("系统异常: ", e);
-        return Result.error(GlobalResCodeConstants.INTERNAL_SERVER_ERROR);
+        return Result.error(GlobalResCodeConstants.INTERNAL_SERVER_ERROR.getCode(), e.getMessage());
     }
 }

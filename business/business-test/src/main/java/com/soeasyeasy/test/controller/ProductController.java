@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 /**
@@ -94,9 +93,8 @@ public class ProductController {
     public PageResult<ProductDTO> getAllProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        PageResult<ProductDO> pageResult = productDbService.pageList(new PageParam<ProductDO>(page, size));
-        return new PageResult<>(pageResult.getCurrent(), pageResult.getSize(), pageResult.getTotal(),
-                pageResult.getRecords().stream().map(ProductConverter.INSTANCE::entityToDto).collect(Collectors.toList()));
+        PageResult<ProductDTO> pageResult = productDbService.pageList(new PageParam<ProductDO>(page, size), ProductConverter.INSTANCE);
+        return pageResult;
     }
 
     /**

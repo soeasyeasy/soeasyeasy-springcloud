@@ -1,7 +1,5 @@
 package com.soeasyeasy.auth.core;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONWriter;
 import com.soeasyeasy.auth.entity.ApiEndpointInfo;
 import com.soeasyeasy.auth.entity.ModelInfo;
 import com.soeasyeasy.auth.entity.ParamInfo;
@@ -80,7 +78,7 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
             //补充javaDoc文档
             docIntegrator.enhanceApiInfo(endpoint);
             API_ENDPOINTS.add(endpoint);
-            log.info("Collected API endpoint: {}", JSON.toJSONString(endpoint, JSONWriter.Feature.PrettyFormat));
+            //log.info("Collected API endpoint: {}", JSON.toJSONString(endpoint, JSONWriter.Feature.PrettyFormat));
         });
     }
 

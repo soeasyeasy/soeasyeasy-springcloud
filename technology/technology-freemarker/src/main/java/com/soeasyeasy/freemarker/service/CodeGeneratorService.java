@@ -230,21 +230,22 @@ public class CodeGeneratorService {
     public byte[] generateCode(TableInfo tableInfo) throws Exception {
         Map<String, Object> data = new HashMap<>();
         data.put("table", tableInfo);
-        data.put("package", "com.example.demo");
+        data.put("package", "com.soeasyeasy.user");
         data.put("author", "system");
         data.put("date", LocalDate.now().toString());
 
+        String packageName = "java/com/soeasyeasy/user";
         // 生成不同模块的代码
         List<Template> templates = Arrays.asList(
-                new Template("Controller.java.ftl", "java/com/example/demo/controller/%sController.java"),
-                new Template("Service.java.ftl", "java/com/example/demo/service/%sService.java"),
-                new Template("ServiceImpl.java.ftl", "java/com/example/demo/service/impl/%sServiceImpl.java"),
-                new Template("Mapper.java.ftl", "java/com/example/demo/mapper/%sMapper.java"),
+                new Template("Controller.java.ftl", packageName + "/controller/%sController.java"),
+                new Template("Service.java.ftl", packageName + "/service/%sService.java"),
+                new Template("ServiceImpl.java.ftl", packageName + "/service/impl/%sServiceImpl.java"),
+                new Template("Mapper.java.ftl", packageName + "/mapper/%sMapper.java"),
                 new Template("Mapper.xml.ftl", "resources/mapper/%sMapper.xml"),
-                new Template("Entity.java.ftl", "java/com/example/demo/entity/%sEntity.java"),
-                new Template("Req.java.ftl", "java/com/example/demo/entity/param/%sReq.java"),
-                new Template("DTO.java.ftl", "java/com/example/demo/entity/dto/%sDTO.java"),
-                new Template("Converter.java.ftl", "java/com/example/demo/convertor/%sConverter.java")
+                new Template("Entity.java.ftl", packageName + "/entity/%sEntity.java"),
+                new Template("Req.java.ftl", packageName + "/entity/param/%sReq.java"),
+                new Template("DTO.java.ftl", packageName + "/entity/dto/%sDTO.java"),
+                new Template("Converter.java.ftl", packageName + "/convertor/%sConverter.java")
         );
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -272,8 +273,9 @@ public class CodeGeneratorService {
      * @param tableInfo 表信息
      */
     private void processTableInfo(TableInfo tableInfo) {
+        //去除表面前缀
         // 处理类名和变量名
-        String className = StringUtils.toCamelCase(tableInfo.getTableName());
+        String className = tableInfo.getTableName().replaceAll("^t_", "");
         tableInfo.setClassName(StringUtils.capitalize(className));
         tableInfo.setVariableName(StringUtils.uncapitalize(className));
         tableInfo.setRestPath(className.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase());

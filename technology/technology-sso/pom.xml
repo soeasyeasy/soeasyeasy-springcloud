@@ -3,26 +3,27 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.soeasyeasy</groupId>
-        <artifactId>see</artifactId>
-        <version>${revision}</version>
+        <artifactId>technology</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>technology</artifactId>
-    <packaging>pom</packaging>
+    <groupId>com.soeasyeasy.sso</groupId>
+    <artifactId>technology-sso</artifactId>
+    <packaging>jar</packaging>
 
-    <name>technology</name>
-
-    <modules>
-        <module>technology-auth</module>
-        <module>technology-freemarker</module>
-        <module>technology-sso</module>
-    </modules>
+    <name>technology-sso</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

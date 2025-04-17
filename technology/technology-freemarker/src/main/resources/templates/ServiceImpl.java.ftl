@@ -1,7 +1,7 @@
 package ${package}.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.demo.convertor.${table.className}Converter;
+import ${package}.convertor.${table.className}Converter;
 import com.soeasyeasy.db.core.BaseServiceImpl;
 import ${package}.entity.${table.className}Entity;
 import ${package}.mapper.${table.className}Mapper;

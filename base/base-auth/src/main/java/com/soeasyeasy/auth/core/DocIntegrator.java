@@ -1,6 +1,5 @@
 package com.soeasyeasy.auth.core;
 
-import com.alibaba.fastjson2.JSON;
 import com.soeasyeasy.auth.entity.ApiEndpointInfo;
 import com.soeasyeasy.auth.entity.ModelInfo;
 import jakarta.annotation.PostConstruct;
@@ -33,7 +32,7 @@ public class DocIntegrator {
         log.info("开始解析项目 Javadoc...路径：{}", rootPath);
         javadocCache.putAll(JavaDocParser.parseProject(rootPath));
         long endTime = System.currentTimeMillis();
-        log.info("Javadoc 解析完成，耗时：{} ms，共缓存 {} 个类的文档：{}", endTime - startTime, javadocCache.size(), JSON.toJSONString(javadocCache));
+        log.info("Javadoc 解析完成，耗时：{} ms，共缓存 {} 个类的文档", endTime - startTime, javadocCache.size());
     }
 
     /**

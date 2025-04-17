@@ -9,3 +9,5 @@ logging:
   level:
     com:
       soeasyeasy: debug
+server:
+  port: 8081
