@@ -32,7 +32,7 @@
         <revision>0.0.1-SNAPSHOT</revision>
         <flatten.version>1.3.0</flatten.version>
 
-        <!--ither-->
+        <!--other-->
         <hutool.version>5.8.34</hutool.version>
         <fastjson2.version>2.0.55</fastjson2.version>
         <xxl.version>2.2.0-SNAPSHOT</xxl.version>

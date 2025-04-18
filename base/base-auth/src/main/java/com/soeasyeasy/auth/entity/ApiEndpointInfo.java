@@ -51,14 +51,14 @@ public class ApiEndpointInfo {
      * 异常描述
      */
     private Map<String, String> exceptionDescriptions;
-    /**
-     * 消费类型
-     */
-    private String consumes;
-    /**
-     * 生产类型
-     */
-    private String produces;
+    ///**
+    // * 消费类型
+    // */
+    //private String consumes;
+    ///**
+    // * 生产类型
+    // */
+    //private String produces;
     /**
      * 类描述
      */

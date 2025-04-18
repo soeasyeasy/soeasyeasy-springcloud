@@ -16,6 +16,7 @@
         <module>technology-auth</module>
         <module>technology-freemarker</module>
         <module>technology-sso</module>
+        <module>technology-gateway</module>
     </modules>
 
     <properties>

@@ -230,11 +230,11 @@ public class CodeGeneratorService {
     public byte[] generateCode(TableInfo tableInfo) throws Exception {
         Map<String, Object> data = new HashMap<>();
         data.put("table", tableInfo);
-        data.put("package", "com.soeasyeasy.user");
+        data.put("package", "com.soeasyeasy.auth");
         data.put("author", "system");
         data.put("date", LocalDate.now().toString());
 
-        String packageName = "java/com/soeasyeasy/user";
+        String packageName = "java/com/soeasyeasy/auth";
         // 生成不同模块的代码
         List<Template> templates = Arrays.asList(
                 new Template("Controller.java.ftl", packageName + "/controller/%sController.java"),

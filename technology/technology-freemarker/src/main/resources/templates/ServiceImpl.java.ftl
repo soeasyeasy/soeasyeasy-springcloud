@@ -1,7 +1,7 @@
 package ${package}.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.soeasyeasy.db.core.BaseServiceImpl;
 import com.soeasyeasy.common.entity.PageParam;
 import ${package}.convertor.${table.className}Converter;
 import ${package}.entity.${table.className}Entity;

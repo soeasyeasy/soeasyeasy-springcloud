@@ -55,7 +55,7 @@ public class ${table.className}Controller {
     * @return {@link PageResult }<{@link ${table.className}DTO }> 分页数据
     */
     @PostMapping("/page")
-    public PageResult<UserDTO> page(@RequestBody ${table.className}Req ${table.variableName}Req) {
+    public PageResult<${table.className}DTO> page(@RequestBody ${table.className}Req ${table.variableName}Req) {
         return ${table.variableName}Service.pageList(${table.variableName}Req, ${table.variableName}Converter);
     }
 

@@ -1,0 +1,34 @@
+# 例如在 dev1.yml 中
+server:
+  port: 9000
+
+logging:
+  level:
+    com.soeasyeasy: debug
+    org.springframework.cloud.gateway: debug
+    reactor.netty.http.client: DEBUG
+
+spring:
+  application:
+    name: see-gateway
+  profiles:
+    active: dev
+  cloud:
+    gateway:
+      default-filters:
+      routes:
+        - id: see-user
+          uri: http://localhost:8081
+          predicates:
+            - Path=/user/**
+        - id: see-auth
+          uri: http://localhost:9000
+          predicates:
+            - Path=/auth/**
+        - id: see-freemarker
+          uri: http://localhost:8080
+          predicates:
+            - Path=/code/**
+
+
+
