@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 用户Mapper
  * @author system
- * @date 2025-04-17 13:36:17
+ * @date 2025-04-18 13:41:41
  */
 @Mapper
 public interface UserMapper extends BaseMapper<UserEntity> {

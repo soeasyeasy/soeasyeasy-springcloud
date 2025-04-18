@@ -212,7 +212,7 @@ public class CodeGeneratorService {
         DatabaseMetaData meta = conn.getMetaData();
 
         // 关键修改：指定schema
-        try (ResultSet rs = meta.getPrimaryKeys(conn.getCatalog(), "sys", tableName)) {
+        try (ResultSet rs = meta.getPrimaryKeys(conn.getCatalog(), null, tableName)) {
             while (rs.next()) {
                 primaryKeys.add(rs.getString("COLUMN_NAME"));
             }
@@ -257,7 +257,7 @@ public class CodeGeneratorService {
                 );
 
                 String fileName = String.format(template.getOutputPath(),
-                        StringUtils.capitalize(StringUtils.toCamelCase(tableInfo.getTableName())));
+                        StringUtils.capitalize(StringUtils.toCamelCase(tableInfo.getClassName())));
 
                 zipOut.putNextEntry(new ZipEntry(fileName));
                 zipOut.write(content.getBytes());
@@ -299,6 +299,13 @@ public class CodeGeneratorService {
                 column.setReqJavaType(column.getJavaType());
             }
             column.setReqJavaField(column.getJavaField());
+
+            // 根据列特征判断是否需要生成查询条件
+            boolean isSearchField = !column.getIsPrimaryKey()
+                    && ("String".equals(column.getJavaType())
+                    || "Integer".equals(column.getJavaType())
+                    || "LocalDateTime".equals(column.getJavaType()));
+            column.setQueryCondition(isSearchField);
 
             // 添加验证注解
             //if (column.getIsPrimaryKey()) {

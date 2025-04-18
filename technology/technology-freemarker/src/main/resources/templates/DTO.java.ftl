@@ -19,6 +19,6 @@ public class ${table.className}DTO {
     /**
     * ${column.columnComment!''}
     */
-    private ${column.javaType} ${column.javaField};
+    private String ${column.javaField};
 </#list>
 }

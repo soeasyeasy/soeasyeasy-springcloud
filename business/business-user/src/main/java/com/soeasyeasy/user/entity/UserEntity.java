@@ -5,14 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 /**
  * 用户数据库表实体
- *
  * @author system
- * @date 2025-04-17 13:36:17
+ * @date 2025-04-18 13:41:41
  */
 @Data
 @TableName("t_user")

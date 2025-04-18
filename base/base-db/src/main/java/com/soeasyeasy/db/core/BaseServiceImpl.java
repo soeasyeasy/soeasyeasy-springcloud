@@ -22,12 +22,32 @@ import java.util.stream.Collectors;
  */
 public class BaseServiceImpl<M extends BaseMapper<ENTITY>, ENTITY, DTO> extends ServiceImpl<M, ENTITY> implements BaseService<ENTITY, DTO> {
 
+    /**
+     * 分页查询
+     *
+     * @param pageParam           page 参数
+     * @param baseEntityConverter Base Entity Converter （基础实体转换器）
+     * @return {@link PageResult }<{@link DTO }>
+     */
     @Override
     public PageResult<DTO> pageList(PageParam<?> pageParam, BaseEntityConverter<DTO, ENTITY> baseEntityConverter) {
         validatePageParam(pageParam);
         Page<ENTITY> page = new Page<>(pageParam.getCurrent(), pageParam.getPageSize());
         Page<ENTITY> result = this.page(page, buildQueryWrapper(pageParam));
         return convertToPageResult(result, baseEntityConverter);
+    }
+
+    /**
+     * 列表
+     *
+     * @param pageParam           page 参数
+     * @param baseEntityConverter Base Entity Converter （基础实体转换器）
+     * @return {@link List }<{@link DTO }>
+     */
+    @Override
+    public List<DTO> list(PageParam<?> pageParam, BaseEntityConverter<DTO, ENTITY> baseEntityConverter) {
+        List<ENTITY> list = this.list(buildQueryWrapper(pageParam));
+        return convertToDTO(list, baseEntityConverter);
     }
 
     /**
@@ -47,7 +67,10 @@ public class BaseServiceImpl<M extends BaseMapper<ENTITY>, ENTITY, DTO> extends 
 
 
     /**
-     * 构建查询条件（默认空条件，可被子类覆盖扩展）
+     * 构建查询包装器
+     *
+     * @param pageParam page 参数
+     * @return {@link QueryWrapper }<{@link ENTITY }>
      */
     @Override
     public QueryWrapper<ENTITY> buildQueryWrapper(PageParam<?> pageParam) {
@@ -58,11 +81,22 @@ public class BaseServiceImpl<M extends BaseMapper<ENTITY>, ENTITY, DTO> extends 
      * 转换分页结果为DTO格式
      */
     protected PageResult<DTO> convertToPageResult(Page<ENTITY> page, BaseEntityConverter<DTO, ENTITY> converter) {
-        List<DTO> dtoList = Optional.ofNullable(page.getRecords())
+        List<DTO> dtoList = convertToDTO(page.getRecords(), converter);
+        return new PageResult<>(page.getCurrent(), page.getSize(), page.getTotal(), dtoList);
+    }
+
+    /**
+     * ENTITY 到 DTO
+     *
+     * @param list      列表
+     * @param converter 转换
+     * @return {@link List }<{@link DTO }>
+     */
+    private static <ENTITY, DTO> List<DTO> convertToDTO(List<ENTITY> list, BaseEntityConverter<DTO, ENTITY> converter) {
+        return Optional.ofNullable(list)
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(converter::entityToDto)
                 .collect(Collectors.toList());
-        return new PageResult<>(page.getCurrent(), page.getSize(), page.getTotal(), dtoList);
     }
 }

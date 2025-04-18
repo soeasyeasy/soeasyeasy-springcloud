@@ -4,13 +4,12 @@ import com.soeasyeasy.common.entity.PageParam;
 import com.soeasyeasy.user.entity.UserEntity;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 
 /**
  * 用户入参
  *
  * @author system
- * @date 2025-04-17 13:36:17
+ * @date 2025-04-18 13:41:41
  */
 @Data
 public class UserReq extends PageParam<UserEntity> {
@@ -23,13 +22,22 @@ public class UserReq extends PageParam<UserEntity> {
      */
     private String userName;
     /**
-     * 生日
+     * 生日（起始时间）
      */
-    private LocalDateTime birth;
+    private String birth;
+    /**
+     * 生日（起始时间）
+     */
+    private String birthStart;
+
+    /**
+     * 生日（结束时间）
+     */
+    private String birthEnd;
     /**
      * 性别 0男 1女
      */
-    private Integer sex;
+    private String sex;
     /**
      * 城市
      */
@@ -45,7 +53,7 @@ public class UserReq extends PageParam<UserEntity> {
     /**
      * 状态 0启用 1停用
      */
-    private Integer status;
+    private String status;
     /**
      * 密码
      */
@@ -53,7 +61,7 @@ public class UserReq extends PageParam<UserEntity> {
     /**
      * 加密方式
      */
-    private Integer pwdType;
+    private String pwdType;
     /**
      * 密码盐
      */
@@ -69,25 +77,43 @@ public class UserReq extends PageParam<UserEntity> {
     /**
      * 乐观锁
      */
-    private Integer version;
+    private String version;
     /**
      * 创建人
      */
     private String createBy;
     /**
-     * 创建时间
+     * 创建时间（起始时间）
      */
     private String createTime;
+    /**
+     * 创建时间（起始时间）
+     */
+    private String createTimeStart;
+
+    /**
+     * 创建时间（结束时间）
+     */
+    private String createTimeEnd;
     /**
      * 更新人
      */
     private String updateBy;
     /**
-     * 更新时间
+     * 更新时间（起始时间）
      */
     private String updateTime;
     /**
+     * 更新时间（起始时间）
+     */
+    private String updateTimeStart;
+
+    /**
+     * 更新时间（结束时间）
+     */
+    private String updateTimeEnd;
+    /**
      * 删除标识 0正常 1删除
      */
-    private Integer deleted;
+    private String deleted;
 }

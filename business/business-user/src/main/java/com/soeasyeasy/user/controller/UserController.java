@@ -1,22 +1,22 @@
 package com.soeasyeasy.user.controller;
 
 import com.soeasyeasy.common.entity.PageResult;
-import com.soeasyeasy.user.convertor.UserConverter;
-import com.soeasyeasy.user.entity.UserEntity;
 import com.soeasyeasy.user.entity.dto.UserDTO;
 import com.soeasyeasy.user.entity.param.UserReq;
 import com.soeasyeasy.user.service.UserService;
+import com.soeasyeasy.user.convertor.UserConverter;
+import com.soeasyeasy.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * 用户控制层
- *
- * @author system
- * @date 2025-04-17 13:36:17
- */
+* 用户控制层
+*
+* @author system
+* @date 2025-04-18 13:41:41
+*/
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class UserController {
     /**
      * 根据id查询
      *
-     * @param id
+     * @param id 主键
      * @return User
      */
     @GetMapping("/{id}")
@@ -40,28 +40,30 @@ public class UserController {
     /**
      * 查询所有
      *
-     * @return List<User>
+     * @param userReq 入参
+     * @return {@link List }<{@link UserDTO}>
      */
-    @GetMapping("/list")
-    public List<UserDTO> list() {
-        return userConverter.entityToDto(userService.list());
+    @PostMapping("/list")
+    public List<UserDTO> list(@RequestBody UserReq userReq) {
+        return userService.list(userReq,userConverter);
     }
 
     /**
-     * 分页查询
-     *
-     * @return List<User>
-     */
+    * 分页查询
+    *
+    * @param userReq 入参
+    * @return {@link PageResult }<{@link UserDTO }> 分页数据
+    */
     @PostMapping("/page")
-    public PageResult<UserDTO> list(@RequestBody UserReq userReq) {
-        return userService.pageList(userReq, UserConverter.INSTANCE);
+    public PageResult<UserDTO> page(@RequestBody UserReq userReq) {
+        return userService.pageList(userReq, userConverter);
     }
 
     /**
      * 保存
      *
-     * @param userReq
-     * @return Boolean
+     * @param userReq 入参
+     * @return Boolean 保存成功返回true
      */
     @PostMapping("/save")
     public Boolean save(@RequestBody UserReq userReq) {
@@ -71,9 +73,8 @@ public class UserController {
 
     /**
      * 修改
-     *
-     * @param userReq
-     * @return Boolean
+     * @param userReq 入参
+     * @return Boolean 修改成功返回true
      */
     @PostMapping("/update")
     public Boolean update(@RequestBody UserReq userReq) {
@@ -82,9 +83,8 @@ public class UserController {
 
     /**
      * 删除
-     *
-     * @param id
-     * @return Boolean
+     * @param id 主键
+     * @return Boolean 删除成功返回true
      */
     @DeleteMapping("/{id}")
     public Boolean delete(@PathVariable String id) {

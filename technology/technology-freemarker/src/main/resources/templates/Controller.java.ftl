@@ -1,15 +1,14 @@
 package ${package}.controller;
 
+import com.soeasyeasy.common.entity.PageResult;
 import ${package}.entity.dto.${table.className}DTO;
 import ${package}.entity.param.${table.className}Req;
 import ${package}.service.${table.className}Service;
 import ${package}.convertor.${table.className}Converter;
 import ${package}.entity.${table.className}Entity;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import jakarta.annotation.Resource;
+
 import java.util.List;
 
 /**
@@ -28,7 +27,8 @@ public class ${table.className}Controller {
 
     /**
      * 根据id查询
-     * @param id
+     *
+     * @param id 主键
      * @return ${table.className}
      */
     @GetMapping("/{id}")
@@ -39,17 +39,31 @@ public class ${table.className}Controller {
 
     /**
      * 查询所有
-     * @return List<${table.className}>
+     *
+     * @param ${table.variableName}Req 入参
+     * @return {@link List }<{@link ${table.className}DTO}>
      */
-    @GetMapping("/list")
-    public List<${table.className}DTO> list() {
-        return ${table.variableName}Converter.entityToDto(${table.variableName}Service.list());
+    @PostMapping("/list")
+    public List<${table.className}DTO> list(@RequestBody ${table.className}Req ${table.variableName}Req) {
+        return ${table.variableName}Service.list(${table.variableName}Req,${table.variableName}Converter);
+    }
+
+    /**
+    * 分页查询
+    *
+    * @param ${table.variableName}Req 入参
+    * @return {@link PageResult }<{@link ${table.className}DTO }> 分页数据
+    */
+    @PostMapping("/page")
+    public PageResult<UserDTO> page(@RequestBody ${table.className}Req ${table.variableName}Req) {
+        return ${table.variableName}Service.pageList(${table.variableName}Req, ${table.variableName}Converter);
     }
 
     /**
      * 保存
-     * @param ${table.variableName}Req
-     * @return Boolean
+     *
+     * @param ${table.variableName}Req 入参
+     * @return Boolean 保存成功返回true
      */
     @PostMapping("/save")
     public Boolean save(@RequestBody ${table.className}Req ${table.variableName}Req) {
@@ -59,8 +73,8 @@ public class ${table.className}Controller {
 
     /**
      * 修改
-     * @param ${table.variableName}Req
-     * @return Boolean
+     * @param ${table.variableName}Req 入参
+     * @return Boolean 修改成功返回true
      */
     @PostMapping("/update")
     public Boolean update(@RequestBody ${table.className}Req ${table.variableName}Req) {
@@ -69,8 +83,8 @@ public class ${table.className}Controller {
 
     /**
      * 删除
-     * @param id
-     * @return Boolean
+     * @param id 主键
+     * @return Boolean 删除成功返回true
      */
     @DeleteMapping("/{id}")
     public Boolean delete(@PathVariable ${table.pkJavaType} id) {

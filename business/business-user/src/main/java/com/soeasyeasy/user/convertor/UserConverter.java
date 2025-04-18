@@ -12,7 +12,7 @@ import org.mapstruct.factory.Mappers;
  * 用户转换层
  *
  * @author system
- * @date 2025-04-17 13:36:17
+ * @date 2025-04-18 13:41:41
  */
 @Mapper(componentModel = "spring")
 public interface UserConverter extends BaseEntityConverter<UserDTO, UserEntity> {
