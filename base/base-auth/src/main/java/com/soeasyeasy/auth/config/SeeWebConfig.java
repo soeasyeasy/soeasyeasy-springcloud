@@ -2,6 +2,7 @@ package com.soeasyeasy.auth.config;
 
 import com.soeasyeasy.auth.interceptor.RequestMappingLoggingInterceptor;
 import jakarta.annotation.Resource;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2025/02/18
  */
 @Configuration
+@EnableFeignClients(basePackages = {"com.soeasyeasy"})
 public class SeeWebConfig implements WebMvcConfigurer {
 
     /**
@@ -32,4 +34,5 @@ public class SeeWebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(requestMappingLoggingInterceptor);
     }
+
 }

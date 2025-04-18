@@ -1,7 +1,8 @@
 # 例如在 dev1.yml 中
 server:
   port: 9000
-
+  netty:
+    max-initial-line-length: 32KB
 logging:
   level:
     com.soeasyeasy: debug
@@ -22,7 +23,7 @@ spring:
           predicates:
             - Path=/user/**
         - id: see-auth
-          uri: http://localhost:9000
+          uri: http://localhost:9001
           predicates:
             - Path=/auth/**
         - id: see-freemarker

@@ -12,6 +12,6 @@ logging:
     com:
       soeasyeasy: debug
 server:
-  port: 9000
+  port: 9001
   servlet:
     context-path: /auth

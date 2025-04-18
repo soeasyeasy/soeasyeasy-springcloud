@@ -72,6 +72,17 @@ public class ApiController {
     }
 
     /**
+     * 批量保存
+     *
+     * @param apiReqList 入参
+     * @return Boolean 保存成功返回true
+     */
+    @PostMapping("/batchSave")
+    public Boolean batchSave(@RequestBody List<ApiReq> apiReqList) {
+        return apiService.saveBatch(apiConverter.reqToDO(apiReqList));
+    }
+
+    /**
      * 修改
      *
      * @param apiReq 入参

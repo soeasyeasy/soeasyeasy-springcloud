@@ -1,12 +1,16 @@
 package com.soeasyeasy.auth.core;
 
+import com.alibaba.fastjson2.JSON;
 import com.soeasyeasy.auth.entity.ApiEndpointInfo;
+import com.soeasyeasy.auth.entity.ApiReq;
 import com.soeasyeasy.auth.entity.ModelInfo;
 import com.soeasyeasy.auth.entity.ParamInfo;
+import com.soeasyeasy.auth.rpc.GatewayFeign;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
@@ -31,6 +35,11 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
     private RequestMappingHandlerMapping requestMappingHandlerMapping;
     @Resource
     DocIntegrator docIntegrator;
+
+    @Resource
+    @Lazy
+    GatewayFeign gatewayFeign;
+
     // 存储所有接口信息
     private static final List<ApiEndpointInfo> API_ENDPOINTS = new ArrayList<>();
 
@@ -51,6 +60,23 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
             collectApiEndpointsInfo();
             long endTime = System.currentTimeMillis();
             log.info("Total API endpoints completed in {} ms,collected: {}", endTime - startTime, API_ENDPOINTS.size());
+
+            List<ApiReq> list = API_ENDPOINTS.parallelStream().map(endpoint -> {
+                ApiReq apiEntity = new ApiReq();
+                apiEntity.setHttpMethod(endpoint.getHttpMethod());
+                apiEntity.setPath(endpoint.getPath());
+                apiEntity.setControllerClass(endpoint.getControllerClass());
+                apiEntity.setMethodName(endpoint.getMethodName());
+                apiEntity.setMethodDescription(endpoint.getMethodDescription());
+                apiEntity.setParameters(JSON.toJSONString(endpoint.getParameters()));
+                apiEntity.setReturnType(JSON.toJSONString(endpoint.getReturnType()));
+                apiEntity.setReturnDescription(JSON.toJSONString(endpoint.getReturnDescription()));
+                apiEntity.setExceptionDescriptions(JSON.toJSONString(endpoint.getExceptionDescriptions()));
+                apiEntity.setDescription(JSON.toJSONString(endpoint.getDescription()));
+                return apiEntity;
+            }).toList();
+            gatewayFeign.batchSave(list);
+            log.debug("api推送成功");
             // 这里可以添加持久化逻辑
             // saveToDatabase();
             // generateJsonFile();
