@@ -20,7 +20,7 @@ technolgy:技术<br>
     - Mapper 接口及 XML ✅
     - Service 接口及实现 ✅
     - RESTful Controller ✅
-    - 分页查询封装
+    - 分页查询封装✅
 
 - **对象分层转换**  
   通过 MapStruct 自动生成：
