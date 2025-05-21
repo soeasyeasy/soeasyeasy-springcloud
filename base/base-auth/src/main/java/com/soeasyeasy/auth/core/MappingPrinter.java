@@ -6,6 +6,7 @@ import com.soeasyeasy.auth.entity.ApiReq;
 import com.soeasyeasy.auth.entity.ModelInfo;
 import com.soeasyeasy.auth.entity.ParamInfo;
 import com.soeasyeasy.auth.rpc.GatewayFeign;
+import com.soeasyeasy.common.entity.Result;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -75,7 +76,7 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
                 apiEntity.setDescription(JSON.toJSONString(endpoint.getDescription()));
                 return apiEntity;
             }).toList();
-            gatewayFeign.batchSave(list);
+            Result<?> result = gatewayFeign.batchSave(list);
             log.debug("api推送成功");
             // 这里可以添加持久化逻辑
             // saveToDatabase();

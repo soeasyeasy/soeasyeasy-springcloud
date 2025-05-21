@@ -18,7 +18,7 @@ import java.util.List;
 * @date 2025-04-18 13:41:41
 */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/userinfo")
 @RequiredArgsConstructor
 public class UserController {
 

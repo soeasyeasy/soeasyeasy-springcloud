@@ -6,6 +6,11 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/soeasyeasy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useInformationSchema=true&nullNamePatternMatchesAll=true
     username: root
     password: root
+  cloud:
+    openfeign:
+      circuitbreaker:
+        alphanumeric-ids:
+          enabled: false
 #    type: com.zaxxer.hikari.HikariDataSource
 logging:
   level:
