@@ -227,14 +227,14 @@ public class CodeGeneratorService {
      * @return {@link byte[] }
      * @throws Exception 例外
      */
-    public byte[] generateCode(TableInfo tableInfo) throws Exception {
+    public byte[] generateCode(TableInfo tableInfo, String endPackagePath) throws Exception {
         Map<String, Object> data = new HashMap<>();
         data.put("table", tableInfo);
-        data.put("package", "com.soeasyeasy.auth");
+        data.put("package", "com.soeasyeasy." + endPackagePath);
         data.put("author", "system");
         data.put("date", LocalDate.now().toString());
 
-        String packageName = "java/com/soeasyeasy/auth";
+        String packageName = "java/com/soeasyeasy/" + endPackagePath;
         // 生成不同模块的代码
         List<Template> templates = Arrays.asList(
                 new Template("Controller.java.ftl", packageName + "/controller/%sController.java"),

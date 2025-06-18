@@ -21,11 +21,11 @@ public class CodeGeneratorController {
         return codeGeneratorService.getTables();
     }
 
-    @PostMapping("/generate/{tableName}")
-    public void generateCode(@PathVariable String tableName, HttpServletResponse response) throws Exception {
+    @PostMapping("/generate/{tableName}/{endPackagePath}")
+    public void generateCode(@PathVariable String tableName, String endPackagePath, HttpServletResponse response) throws Exception {
         codeGeneratorService.testMetadata();
         TableInfo tableInfo = codeGeneratorService.getTableInfo(tableName);
-        byte[] data = codeGeneratorService.generateCode(tableInfo);
+        byte[] data = codeGeneratorService.generateCode(tableInfo, endPackagePath);
 
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition",

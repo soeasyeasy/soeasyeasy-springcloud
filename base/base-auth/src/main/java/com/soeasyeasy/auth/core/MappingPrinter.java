@@ -76,8 +76,12 @@ public class MappingPrinter implements ApplicationListener<ContextRefreshedEvent
                 apiEntity.setDescription(JSON.toJSONString(endpoint.getDescription()));
                 return apiEntity;
             }).toList();
-            Result<?> result = gatewayFeign.batchSave(list);
-            log.debug("api推送成功");
+            try {
+                Result<?> result = gatewayFeign.batchSave(list);
+                log.debug("api推送成功");
+            } catch (Exception e) {
+                log.error("api推送失败", e.getMessage(), e);
+            }
             // 这里可以添加持久化逻辑
             // saveToDatabase();
             // generateJsonFile();

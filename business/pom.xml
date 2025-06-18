@@ -16,7 +16,7 @@
     <modules>
         <module>business-admin</module>
         <module>business-test</module>
-        <module>business-user</module>
+        <module>business-system</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
