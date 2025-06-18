@@ -76,7 +76,7 @@ public class UserEntity {
      * 内部主键
      */
     @TableId(value = "id")
-    private String id;
+    private Long id;
     /**
      * 外部主键
      */

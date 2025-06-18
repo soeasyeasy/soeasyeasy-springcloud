@@ -8,7 +8,7 @@ import java.util.Set;
  *
  * @author hc@date 2025/03/17
  */
-public interface BaseEntityConverter<DTO, ENTITY> extends LocalDateTimeConverter {
+public interface BaseEntityConverter<DTO, ENTITY> extends BaseConverterConverter {
 
     /**
      * DTO 到实体

@@ -1,4 +1,4 @@
-package com.soeasyeasy.auth.entity.dto;
+package com.soeasyeasy.system.entity.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
  * API信息DTO
  *
  * @author system
- * @date 2025-04-18 15:11:28
+ * @date 2025-06-18 17:03:51
  */
 @Data
 public class ApiDTO {
@@ -82,4 +82,12 @@ public class ApiDTO {
      * 删除标识 0正常 1删除
      */
     private String deleted;
+    /**
+     * 状态 0禁用 1启用
+     */
+    private String status;
+    /**
+     * 所属应用
+     */
+    private String appId;
 }

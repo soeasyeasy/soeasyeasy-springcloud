@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soeasyeasy.system.mapper.AppMapper">
+    <resultMap id="BaseResultMap" type="com.soeasyeasy.system.entity.AppEntity">
+            <result column="id" property="id" jdbcType="VARCHAR"/>
+            <result column="uuid" property="uuid" jdbcType="VARCHAR"/>
+            <result column="version" property="version" jdbcType="INTEGER"/>
+            <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+            <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+            <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+            <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+            <result column="deleted" property="deleted" jdbcType="INTEGER"/>
+            <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+            <result column="app_code" property="appCode" jdbcType="VARCHAR"/>
+            <result column="app_secret" property="appSecret" jdbcType="VARCHAR"/>
+            <result column="redirect_uri" property="redirectUri" jdbcType="VARCHAR"/>
+            <result column="status" property="status" jdbcType="INTEGER"/>
+            <result column="failure_time" property="failureTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, uuid, version, create_by, create_time, update_by, update_time, deleted, app_name, app_code, app_secret, redirect_uri, status, failure_time
+    </sql>
+</mapper>

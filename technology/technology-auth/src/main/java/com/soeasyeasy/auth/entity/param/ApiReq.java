@@ -55,7 +55,7 @@ public class ApiReq extends PageParam<ApiEntity> {
     /**
      * 内部主键
      */
-    private String id;
+    private Long id;
     /**
      * 外部主键
      */

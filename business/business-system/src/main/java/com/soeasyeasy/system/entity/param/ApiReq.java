@@ -1,71 +1,57 @@
 package com.soeasyeasy.system.entity.param;
 
 import com.soeasyeasy.common.entity.PageParam;
-import com.soeasyeasy.system.entity.UserEntity;
+import com.soeasyeasy.system.entity.ApiEntity;
 import lombok.Data;
 
-
 /**
- * 用户入参
+ * API信息入参
  *
  * @author system
- * @date 2025-04-18 13:41:41
+ * @date 2025-06-18 17:03:51
  */
 @Data
-public class UserReq extends PageParam<UserEntity> {
+public class ApiReq extends PageParam<ApiEntity> {
     /**
-     * 真实名称
+     * HTTP方法类型，如GET, POST等
      */
-    private String name;
+    private String httpMethod;
     /**
-     * 昵称
+     * 接口路径
      */
-    private String userName;
+    private String path;
     /**
-     * 生日（起始时间）
+     * 控制器类名
      */
-    private String birth;
+    private String controllerClass;
     /**
-     * 生日（起始时间）
+     * 方法名称
      */
-    private String birthStart;
-
+    private String methodName;
     /**
-     * 生日（结束时间）
+     * 方法描述
      */
-    private String birthEnd;
+    private String methodDescription;
     /**
-     * 性别 0男 1女
+     * 参数列表，以JSON格式存储
      */
-    private String sex;
+    private String parameters;
     /**
-     * 城市
+     * 返回类型，以JSON格式存储
      */
-    private String city;
+    private String returnType;
     /**
-     * 手机号
+     * 返回值描述
      */
-    private String phone;
+    private String returnDescription;
     /**
-     * 邮箱
+     * 异常描述，以JSON格式存储
      */
-    private String email;
+    private String exceptionDescriptions;
     /**
-     * 状态 0启用 1停用
+     * 类描述
      */
-    private String status;
-    /**
-     * 密码
-     */
-    private String pwd;
-    /**
-     * 加密方式
-     */
-    private String pwdType;
-    /**
-     * 密码盐
-     */
-    private String salt;
+    private String description;
     /**
      * 内部主键
      */
@@ -116,4 +102,12 @@ public class UserReq extends PageParam<UserEntity> {
      * 删除标识 0正常 1删除
      */
     private String deleted;
+    /**
+     * 状态 0禁用 1启用
+     */
+    private String status;
+    /**
+     * 所属应用
+     */
+    private String appId;
 }

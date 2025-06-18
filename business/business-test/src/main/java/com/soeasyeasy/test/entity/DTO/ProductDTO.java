@@ -13,7 +13,7 @@ public class ProductDTO {
      * 主键
      */
     @Id
-    private String id;
+    private Long id;
     /**
      * 名称
      */

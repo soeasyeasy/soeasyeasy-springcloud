@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soeasyeasy.system.mapper.OrgMapper">
+    <resultMap id="BaseResultMap" type="com.soeasyeasy.system.entity.OrgEntity">
+            <result column="id" property="id" jdbcType="VARCHAR"/>
+            <result column="uuid" property="uuid" jdbcType="VARCHAR"/>
+            <result column="version" property="version" jdbcType="INTEGER"/>
+            <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+            <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+            <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+            <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+            <result column="deleted" property="deleted" jdbcType="INTEGER"/>
+            <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+            <result column="org_code" property="orgCode" jdbcType="VARCHAR"/>
+            <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+            <result column="sort_order" property="sortOrder" jdbcType="INTEGER"/>
+            <result column="status" property="status" jdbcType="INTEGER"/>
+            <result column="org_type" property="orgType" jdbcType="INTEGER"/>
+            <result column="app_id" property="appId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, uuid, version, create_by, create_time, update_by, update_time, deleted, org_name, org_code, parent_id, sort_order, status, org_type, app_id
+    </sql>
+</mapper>

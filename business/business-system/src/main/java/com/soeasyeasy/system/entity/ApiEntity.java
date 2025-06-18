@@ -1,4 +1,4 @@
-package com.soeasyeasy.auth.entity;
+package com.soeasyeasy.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * API信息数据库表实体
  *
  * @author system
- * @date 2025-04-18 15:11:28
+ * @date 2025-06-18 17:03:51
  */
 @Data
 @TableName("t_api")
@@ -108,4 +108,14 @@ public class ApiEntity {
     @TableField(value = "deleted")
     @TableLogic
     private Integer deleted;
+    /**
+     * 状态 0禁用 1启用
+     */
+    @TableField(value = "status")
+    private Integer status;
+    /**
+     * 所属应用
+     */
+    @TableField(value = "app_id")
+    private String appId;
 }

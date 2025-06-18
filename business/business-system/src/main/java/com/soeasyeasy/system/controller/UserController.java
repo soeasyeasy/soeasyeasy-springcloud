@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 用户控制层
@@ -79,7 +80,11 @@ public class UserController {
      */
     @PostMapping("/update")
     public Boolean update(@RequestBody UserReq userReq) {
-        return userService.updateById(userConverter.reqToDO(userReq));
+        UserEntity userEntity = userConverter.reqToDO(userReq);
+        if (Objects.isNull(userReq.getId())) {
+            return userService.save(userEntity);
+        }
+        return userService.updateById(userEntity);
     }
 
     /**
