@@ -21,7 +21,7 @@ spring:
         - id: see-user
           uri: http://localhost:8081
           predicates:
-            - Path=/user/**
+            - Path=/system/**
         - id: see-auth
           uri: http://localhost:9001
           predicates:

@@ -13,6 +13,7 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
@@ -25,7 +26,6 @@ import java.util.zip.ZipOutputStream;
 public class CodeGeneratorService {
     private final DataSource dataSource;
     private final Configuration freemarkerConfig;
-
     private static final Map<String, String> TYPE_MAP = new HashMap<>();
     private static final Map<String, String> JDBC_TYPE_MAP = new HashMap<>();
 
@@ -223,11 +223,13 @@ public class CodeGeneratorService {
     /**
      * 生成代码
      *
-     * @param tableInfo 表信息
+     * @param tableName      表名
+     * @param endPackagePath End Package 路径
      * @return {@link byte[] }
      * @throws Exception 例外
      */
-    public byte[] generateCode(TableInfo tableInfo, String endPackagePath) throws Exception {
+    public byte[] generateCode(String tableName, String endPackagePath) throws Exception {
+        TableInfo tableInfo = this.getTableInfo(tableName);
         Map<String, Object> data = new HashMap<>();
         data.put("table", tableInfo);
         data.put("package", "com.soeasyeasy." + endPackagePath);
@@ -256,8 +258,7 @@ public class CodeGeneratorService {
                         data
                 );
 
-                String fileName = String.format(template.getOutputPath(),
-                        StringUtils.capitalize(StringUtils.toCamelCase(tableInfo.getClassName())));
+                String fileName = String.format(template.getOutputPath(), tableInfo.getClassName());
 
                 zipOut.putNextEntry(new ZipEntry(fileName));
                 zipOut.write(content.getBytes());
@@ -276,7 +277,8 @@ public class CodeGeneratorService {
         //去除表面前缀
         // 处理类名和变量名
         String className = tableInfo.getTableName().replaceAll("^t_", "");
-        tableInfo.setClassName(StringUtils.capitalize(className));
+        //tableInfo.setClassName(StringUtils.capitalize(className));
+        tableInfo.setClassName(StringUtils.capitalize(StringUtils.toCamelCase(className)));
         tableInfo.setVariableName(StringUtils.uncapitalize(className));
         tableInfo.setRestPath(className.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase());
 
@@ -315,6 +317,57 @@ public class CodeGeneratorService {
             //}
         }
 
+    }
+
+    public byte[] generateCode(String[] tableNames, String endPackagePath) throws Exception {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (ZipOutputStream zipOut = new ZipOutputStream(outputStream)) {
+            // 公共数据（所有表共享）
+            Map<String, Object> commonData = new HashMap<>();
+            commonData.put("package", "com.soeasyeasy." + endPackagePath);
+            commonData.put("author", "system");
+            commonData.put("date", LocalDate.now().toString());
+
+            // 模板配置（不变）
+            List<Template> templates = Arrays.asList(
+                    new Template("Controller.java.ftl", "java/com/soeasyeasy/" + endPackagePath + "/controller/%sController.java"),
+                    new Template("Service.java.ftl", "java/com/soeasyeasy/" + endPackagePath + "/service/%sService.java"),
+                    new Template("ServiceImpl.java.ftl", "java/com/soeasyeasy/" + endPackagePath + "/service/impl/%sServiceImpl.java"),
+                    new Template("Mapper.java.ftl", "java/com/soeasyeasy/" + endPackagePath + "/mapper/%sMapper.java"),
+                    new Template("Mapper.xml.ftl", "resources/mapper/%sMapper.xml"),
+                    new Template("Entity.java.ftl", "java/com/soeasyeasy/" + endPackagePath + "/entity/%sEntity.java"),
+                    new Template("Req.java.ftl", "java/com/soeasyeasy/" + endPackagePath + "/entity/param/%sReq.java"),
+                    new Template("DTO.java.ftl", "java/com/soeasyeasy/" + endPackagePath + "/entity/dto/%sDTO.java"),
+                    new Template("Converter.java.ftl", "java/com/soeasyeasy/" + endPackagePath + "/convertor/%sConverter.java")
+            );
+
+            // 遍历每张表生成代码
+            for (String tableName : tableNames) {
+                TableInfo tableInfo = this.getTableInfo(tableName);
+                Map<String, Object> data = new HashMap<>(commonData);
+                data.put("table", tableInfo);
+
+                // 生成所有模板文件
+                for (Template template : templates) {
+                    String content = FreeMarkerTemplateUtils.processTemplateIntoString(
+                            freemarkerConfig.getTemplate(template.getTemplateName()),
+                            data
+                    );
+
+                    // 格式化输出路径（用类名替换%s）
+                    String fileName = String.format(template.getOutputPath(), tableInfo.getClassName());
+
+                    //String fileName = String.format(template.getOutputPath(),
+                    //        StringUtils.capitalize(StringUtils.toCamelCase(tableInfo.getClassName())));
+
+                    // 写入ZIP（自动处理同名文件）
+                    zipOut.putNextEntry(new ZipEntry(fileName));
+                    zipOut.write(content.getBytes(StandardCharsets.UTF_8));
+                    zipOut.closeEntry();
+                }
+            }
+        }
+        return outputStream.toByteArray();
     }
 
 
