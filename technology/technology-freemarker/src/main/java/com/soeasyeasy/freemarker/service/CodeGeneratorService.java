@@ -276,9 +276,9 @@ public class CodeGeneratorService {
     private void processTableInfo(TableInfo tableInfo) {
         //去除表面前缀
         // 处理类名和变量名
-        String className = tableInfo.getTableName().replaceAll("^t_", "");
+        String className = StringUtils.toCamelCase(tableInfo.getTableName().replaceAll("^t_", ""));
         //tableInfo.setClassName(StringUtils.capitalize(className));
-        tableInfo.setClassName(StringUtils.capitalize(StringUtils.toCamelCase(className)));
+        tableInfo.setClassName(StringUtils.capitalize(className));
         tableInfo.setVariableName(StringUtils.uncapitalize(className));
         tableInfo.setRestPath(className.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase());
 
