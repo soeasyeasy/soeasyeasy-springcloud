@@ -110,4 +110,9 @@ public class ApiReq extends PageParam<ApiEntity> {
      * 所属应用
      */
     private String appId;
+
+    /**
+     * 关键词
+     */
+    private String keyword;
 }

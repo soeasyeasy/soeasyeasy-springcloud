@@ -57,7 +57,7 @@ public class UserDTO {
     /**
      * 内部主键
      */
-    private Long id;
+    private String id;
     /**
      * 外部主键
      */

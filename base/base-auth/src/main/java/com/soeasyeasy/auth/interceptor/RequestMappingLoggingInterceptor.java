@@ -39,13 +39,13 @@ public class RequestMappingLoggingInterceptor implements HandlerInterceptor {
             for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
                 if (entry.getValue().toString().equals(handlerMethod.toString())) {
                     RequestMappingInfo mappingInfo = entry.getKey();
-                    log.info("Matched URL patterns: " + mappingInfo.getMethodsCondition().getMethods().iterator().next() + "|" + mappingInfo.getPathPatternsCondition().getFirstPattern().getPatternString());
+                    //log.info("Matched URL patterns: " + mappingInfo.getMethodsCondition().getMethods().iterator().next() + "|" + mappingInfo.getPathPatternsCondition().getFirstPattern().getPatternString());
                     break;
                 }
             }
             // 打印请求路径和入参
-            log.info("Request URL: " + request.getRequestURL().toString());
-            log.info("Request Parameters: " + request.getParameterMap());
+            //log.info("Request URL: " + request.getRequestURL().toString());
+            //log.info("Request Parameters: " + request.getParameterMap());
         }
         return true;
     }
@@ -62,6 +62,6 @@ public class RequestMappingLoggingInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         // 可以用来记录出参或其他信息，这里简化处理
-        log.info("Response status: " + response.getStatus());
+        //log.info("Response status: " + response.getStatus());
     }
 }

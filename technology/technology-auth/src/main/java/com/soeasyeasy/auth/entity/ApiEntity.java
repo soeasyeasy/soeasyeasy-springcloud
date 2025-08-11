@@ -103,6 +103,11 @@ public class ApiEntity {
     @TableField(value = "update_time")
     private LocalDateTime updateTime;
     /**
+     * 关键
+     */
+    @TableField(exist = false)
+    private String keyword;
+    /**
      * 删除标识 0正常 1删除
      */
     @TableField(value = "deleted")

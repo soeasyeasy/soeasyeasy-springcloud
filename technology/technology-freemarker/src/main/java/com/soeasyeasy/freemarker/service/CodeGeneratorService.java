@@ -75,10 +75,21 @@ public class CodeGeneratorService {
     public List<String> getTables() throws SQLException {
         try (Connection conn = dataSource.getConnection()) {
             DatabaseMetaData metaData = conn.getMetaData();
+            Statement stmt = conn.createStatement();
             ResultSet rs = metaData.getTables(null, null, "%", new String[]{"TABLE"});
             List<String> tables = new ArrayList<>();
             while (rs.next()) {
-                tables.add(rs.getString("TABLE_NAME"));
+                String table = rs.getString("TABLE_NAME");
+                tables.add(table);
+                String sql = String.format(
+                        //"truncate TABLE %s ;",
+                        //"drop TABLE %s ;",
+                        "ALTER TABLE %s CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;\n",
+                        table
+                );
+                System.out.println("Executing: " + sql);
+                //stmt.executeUpdate(sql);
+                //System.out.println("Converted table: " + table);
             }
             return tables;
         }
@@ -295,7 +306,8 @@ public class CodeGeneratorService {
 
             // Req字段特殊处理（示例：时间字段转换）
             if ("create_time".equals(column.getColumnName())
-                    || "update_time".equals(column.getColumnName())) {
+                    || "update_time".equals(column.getColumnName())
+                    || "id".equals(column.getColumnName())) {
                 column.setReqJavaType("String");
             } else {
                 column.setReqJavaType(column.getJavaType());

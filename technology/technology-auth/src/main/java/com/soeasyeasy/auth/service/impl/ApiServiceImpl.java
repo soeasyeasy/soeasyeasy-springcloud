@@ -47,6 +47,12 @@ public class ApiServiceImpl extends BaseServiceImpl<ApiMapper, ApiEntity, ApiDTO
                     .ge(Objects.nonNull(req.getUpdateTimeStart()), ApiEntity::getUpdateTime, req.getUpdateTimeStart())
                     .le(Objects.nonNull(req.getUpdateTimeEnd()), ApiEntity::getUpdateTime, req.getUpdateTimeEnd())
                     .eq(Objects.nonNull(entity.getDeleted()), ApiEntity::getDeleted, entity.getDeleted())
+                    //keyword不为空 路径、名称 描述 模糊查询
+                    .like(StringUtils.isNotBlank(entity.getKeyword()), ApiEntity::getPath, entity.getKeyword())
+                    .or()
+                    .like(StringUtils.isNotBlank(entity.getKeyword()), ApiEntity::getMethodName, entity.getKeyword())
+                    .or()
+                    .like(StringUtils.isNotBlank(entity.getKeyword()), ApiEntity::getDescription, entity.getKeyword())
             ;
             return queryWrapper;
         }

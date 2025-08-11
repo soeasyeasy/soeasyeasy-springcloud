@@ -13,7 +13,7 @@ public class OrgDTO {
     /**
      * 内部主键
      */
-    private Long id;
+    private String id;
     /**
      * 外部标识
      */

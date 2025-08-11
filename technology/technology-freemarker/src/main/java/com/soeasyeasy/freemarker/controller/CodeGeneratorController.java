@@ -1,6 +1,7 @@
 package com.soeasyeasy.freemarker.controller;
 
 import com.soeasyeasy.freemarker.service.CodeGeneratorService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CodeGeneratorController {
     private final CodeGeneratorService codeGeneratorService;
+
+    @PostConstruct
+    public void init() throws SQLException {
+        codeGeneratorService.getTables();
+    }
 
     @GetMapping("/tables")
     public List<String> getTables() throws SQLException {

@@ -118,4 +118,10 @@ public class ApiEntity {
      */
     @TableField(value = "app_id")
     private String appId;
+
+    /**
+     * 关键
+     */
+    @TableField(exist = false)
+    private String keyword;
 }
