@@ -123,6 +123,11 @@
                 <artifactId>technology-auth</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.soeasyeasy.security</groupId>
+                <artifactId>technology-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
 
             <!--other-->
             <!--一些工具类-->

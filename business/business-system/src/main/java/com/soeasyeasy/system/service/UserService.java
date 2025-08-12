@@ -10,6 +10,6 @@ import com.soeasyeasy.system.entity.dto.UserDTO;
  * @author system
  * @date 2025-04-18 13:41:41
  */
-public interface UserService extends BaseService<UserEntity, UserDTO> {
+public interface UserService extends BaseService<UserEntity, UserDTO>, com.soeasyeasy.security.service.UserService {
 
 }

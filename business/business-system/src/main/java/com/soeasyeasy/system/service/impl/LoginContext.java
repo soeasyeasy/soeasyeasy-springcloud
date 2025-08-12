@@ -23,12 +23,9 @@ public class LoginContext {
      */
     private static final Map<String, LoginService> LOGIN_STRATEGIES = new ConcurrentHashMap<>();
 
-    /**
-     * 策略类型常量
-     */
-    public static final String PHONE_LOGIN = "phone";
+
     public static final String EMAIL_LOGIN = "email";
-    public static final String USER_NAME_LOGIN = "userName";
+
 
     /**
      * 注册登录策略

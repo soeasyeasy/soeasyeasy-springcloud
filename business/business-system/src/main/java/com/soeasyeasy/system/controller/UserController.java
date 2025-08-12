@@ -7,6 +7,7 @@ import com.soeasyeasy.system.entity.dto.UserDTO;
 import com.soeasyeasy.system.entity.param.UserReq;
 import com.soeasyeasy.system.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,8 @@ public class UserController {
      * @return {@link PageResult }<{@link UserDTO }> 分页数据
      */
     @PostMapping("/page")
+    @PreAuthorize("hasAuthority('user:page')")
+    //@PostFilter("filterObject.records.name== authentication.name")
     public PageResult<UserDTO> page(@RequestBody UserReq userReq) {
         return userService.pageList(userReq, userConverter);
     }

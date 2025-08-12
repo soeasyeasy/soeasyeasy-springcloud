@@ -1,6 +1,7 @@
 package com.soeasyeasy.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.soeasyeasy.common.entity.BaseUser;
 import com.soeasyeasy.common.entity.PageParam;
 import com.soeasyeasy.db.core.BaseServiceImpl;
 import com.soeasyeasy.system.convertor.UserConverter;
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+/**
+ * @author hc
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserEntity, UserDTO> implements UserService {
@@ -54,5 +58,40 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserEntity, Use
             return queryWrapper;
         }
         return super.buildQueryWrapper(pageParam);
+    }
+
+    /**
+     * 根据id获取用户信息
+     *
+     * @param id 主键
+     */
+    @Override
+    public BaseUser getUserById(String id) {
+        return this.getById(id);
+    }
+
+    /**
+     * 根据用户名获取用户信息
+     *
+     * @param username 用户名
+     */
+    @Override
+    public UserEntity getUserByUsername(String username) {
+        QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserEntity::getUserName, username);
+        return this.getOne(queryWrapper);
+    }
+
+
+    /**
+     * 根据手机号获取用户信息
+     *
+     * @param phone 手机号
+     */
+    @Override
+    public UserEntity getUserByPhone(String phone) {
+        QueryWrapper<UserEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(UserEntity::getPhone, phone);
+        return this.getOne(queryWrapper);
     }
 }

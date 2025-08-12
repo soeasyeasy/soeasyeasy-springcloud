@@ -5,13 +5,17 @@
         <groupId>com.soeasyeasy</groupId>
         <artifactId>technology</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
+        <!--        <relativePath>../pom.xml</relativePath>-->
     </parent>
 
     <artifactId>technology-auth</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>technology-auth</name>
+    <modules>
+        <module>technology-security</module>
+        <module>technology-api</module>
+    </modules>
 
 
     <properties>

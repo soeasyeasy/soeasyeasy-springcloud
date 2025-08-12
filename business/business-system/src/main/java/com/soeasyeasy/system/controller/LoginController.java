@@ -1,5 +1,6 @@
 package com.soeasyeasy.system.controller;
 
+import com.soeasyeasy.security.util.JwtUtil;
 import com.soeasyeasy.system.entity.dto.LoginDTO;
 import com.soeasyeasy.system.entity.param.LoginReq;
 import com.soeasyeasy.system.service.impl.LoginContext;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 @RequiredArgsConstructor
 public class LoginController {
+    private final JwtUtil jwtUtil;
 
     /**
      * 登录接口
@@ -27,7 +29,9 @@ public class LoginController {
         if (StringUtils.isBlank(loginType)) {
             throw new IllegalArgumentException("登录类型不能为空");
         }
-        return LoginContext.executeLogin(loginType, loginReq);
+        LoginDTO loginDTO = LoginContext.executeLogin(loginType, loginReq);
+        loginDTO.setToken(jwtUtil.generateToken(loginDTO.getId()));
+        return loginDTO;
     }
 
 }

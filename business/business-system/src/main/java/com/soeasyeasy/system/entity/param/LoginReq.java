@@ -2,6 +2,9 @@ package com.soeasyeasy.system.entity.param;
 
 import lombok.Data;
 
+/**
+ * @author hc
+ */
 @Data
 public class LoginReq {
 
@@ -13,6 +16,10 @@ public class LoginReq {
      * 手机号
      */
     private String phone;
+    /**
+     * 验证码
+     */
+    private String code;
     /**
      * 昵称
      */

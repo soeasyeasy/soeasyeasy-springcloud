@@ -1,9 +1,17 @@
 package com.soeasyeasy.system.service.impl;
 
+import com.soeasyeasy.security.config.CustomAuthenticationToken;
+import com.soeasyeasy.security.config.LoginType;
+import com.soeasyeasy.system.convertor.UserConverter;
+import com.soeasyeasy.system.entity.UserEntity;
 import com.soeasyeasy.system.entity.dto.LoginDTO;
 import com.soeasyeasy.system.entity.param.LoginReq;
 import com.soeasyeasy.system.service.LoginService;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +21,10 @@ import org.springframework.stereotype.Service;
  * @date 2025/04/17
  */
 @Service
+@RequiredArgsConstructor
 public class PhoneLoginService implements LoginService {
+    private final AuthenticationManager authenticationManager;
+
     /**
      * 登录
      *
@@ -22,7 +33,15 @@ public class PhoneLoginService implements LoginService {
      */
     @Override
     public LoginDTO login(LoginReq loginReq) {
-        return null;
+        CustomAuthenticationToken token = new CustomAuthenticationToken(
+                loginReq.getPhone(),
+                loginReq.getCode(),
+                LoginType.mobile
+        );
+        Authentication authenticated = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authenticated);
+        UserEntity userByUsername = (UserEntity) authenticated.getPrincipal();
+        return UserConverter.INSTANCE.doToLoginDTO(userByUsername);
     }
 
     /**
@@ -31,6 +50,6 @@ public class PhoneLoginService implements LoginService {
     @Override
     @PostConstruct
     public void initLoginType() {
-        LoginContext.registerLoginStrategy(LoginContext.PHONE_LOGIN, this);
+        LoginContext.registerLoginStrategy(LoginType.mobile.name(), this);
     }
 }

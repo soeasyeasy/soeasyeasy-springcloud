@@ -3,6 +3,7 @@ package com.soeasyeasy.system.entity.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 登录出参
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
  */
 @Data
 public class LoginDTO {
+    private String id;
     /**
      * 外部主键
      */
@@ -51,5 +53,9 @@ public class LoginDTO {
      * 状态 0启用 1停用
      */
     private Integer status;
+    /**
+     * 权限code
+     */
+    private List<String> permissionCode;
 
 }

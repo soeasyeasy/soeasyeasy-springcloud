@@ -1,12 +1,10 @@
 package com.soeasyeasy.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.soeasyeasy.common.entity.BaseUser;
 import lombok.Data;
-
-import java.time.LocalDateTime;
 
 /**
  * 用户数据库表实体
@@ -16,52 +14,12 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("t_user")
-public class UserEntity {
-    /**
-     * 真实名称
-     */
-    @TableField(value = "name")
-    private String name;
-    /**
-     * 昵称
-     */
-    @TableField(value = "user_name")
-    private String userName;
-    /**
-     * 生日
-     */
-    @TableField(value = "birth")
-    private LocalDateTime birth;
-    /**
-     * 性别 0男 1女
-     */
-    @TableField(value = "sex")
-    private Integer sex;
+public class UserEntity extends BaseUser {
     /**
      * 城市
      */
     @TableField(value = "city")
     private String city;
-    /**
-     * 手机号
-     */
-    @TableField(value = "phone")
-    private String phone;
-    /**
-     * 邮箱
-     */
-    @TableField(value = "email")
-    private String email;
-    /**
-     * 状态 0启用 1停用
-     */
-    @TableField(value = "status")
-    private Integer status;
-    /**
-     * 密码
-     */
-    @TableField(value = "pwd")
-    private String pwd;
     /**
      * 加密方式
      */
@@ -72,11 +30,7 @@ public class UserEntity {
      */
     @TableField(value = "salt")
     private String salt;
-    /**
-     * 内部主键
-     */
-    @TableId(value = "id")
-    private Long id;
+
     /**
      * 外部主键
      */
@@ -87,26 +41,6 @@ public class UserEntity {
      */
     @TableField(value = "version")
     private Integer version;
-    /**
-     * 创建人
-     */
-    @TableField(value = "create_by")
-    private String createBy;
-    /**
-     * 创建时间
-     */
-    @TableField(value = "create_time")
-    private LocalDateTime createTime;
-    /**
-     * 更新人
-     */
-    @TableField(value = "update_by")
-    private String updateBy;
-    /**
-     * 更新时间
-     */
-    @TableField(value = "update_time")
-    private LocalDateTime updateTime;
     /**
      * 删除标识 0正常 1删除
      */

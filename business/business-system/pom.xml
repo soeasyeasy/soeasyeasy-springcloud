@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.soeasyeasy</groupId>
         <artifactId>business</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <groupId>com.soeasyeasy.user</groupId>
@@ -17,7 +17,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>com.soeasyeasy</groupId>
@@ -30,6 +30,10 @@
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.soeasyeasy.security</groupId>
+            <artifactId>technology-security</artifactId>
         </dependency>
     </dependencies>
 </project>

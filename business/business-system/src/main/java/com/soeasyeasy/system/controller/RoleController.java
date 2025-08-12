@@ -7,6 +7,7 @@ import com.soeasyeasy.system.entity.dto.RoleDTO;
 import com.soeasyeasy.system.entity.param.RoleReq;
 import com.soeasyeasy.system.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,7 @@ public class RoleController {
      * @return {@link PageResult }<{@link RoleDTO }> 分页数据
      */
     @PostMapping("/page")
+    @PreAuthorize("hasAuthority('role:page')")
     public PageResult<RoleDTO> page(@RequestBody RoleReq roleReq) {
         return roleService.pageList(roleReq, roleConverter);
     }
