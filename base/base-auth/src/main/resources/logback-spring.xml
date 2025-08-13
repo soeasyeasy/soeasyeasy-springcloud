@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <springProperty scope="context" name="LOG_PATH" source="logger.path"/>
-    <property name="SERVICE_NAME" value="sed-warehouse"/>
+    <!--    <springProperty scope="context" name="LOG_PATH" source="logger.path"/>-->
+    <property name="SERVICE_NAME" value="business-system"/>
+    <property name="LOG_PATH" value="business-system"/>
 
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -12,6 +13,41 @@
             <charset>UTF-8</charset>
         </encoder>
     </appender>
+
+    <!--    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+    <!--        <destination>localhost:5000</destination>-->
+    <!--        <encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
+    <!--            &lt;!&ndash; 可选：添加应用名 &ndash;&gt;-->
+    <!--            <customFields>{"app":"business-system"}</customFields>-->
+    <!--        </encoder>-->
+    <!--    </appender>-->
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:5000</destination>
+
+        <!-- 使用异步发送，减少阻塞 -->
+        <eventDeliveryStrategy class="net.logstash.logback.async.AwaitingEventDeliveryStrategy"/>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <logLevel/>
+                <message/>
+                <loggerName/>
+                <mdc/>
+                <stackTrace/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <!-- 包裹成异步 -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="LOGSTASH"/>
+        <queueSize>100</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <includeCallerData>false</includeCallerData>
+    </appender>
+
 
     <!--文件输出 -->
     <appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -64,6 +100,8 @@
     <springProfile name="default,local">
         <root level="INFO">
             <appender-ref ref="console"/>
+            <!--            <appender-ref ref="logFile"/>-->
+            <appender-ref ref="LOGSTASH"/>
         </root>
     </springProfile>
     <springProfile name="dev,test">

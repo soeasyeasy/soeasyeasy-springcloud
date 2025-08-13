@@ -2,8 +2,10 @@ package com.soeasyeasy.auth.interceptor;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONWriter;
+import com.soeasyeasy.auth.core.LogService;
+import com.soeasyeasy.auth.entity.LogInfo;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,6 +25,8 @@ import java.util.UUID;
 @Component
 public class LoggingAspect {
 
+    @Resource
+    LogService logService;
 
     // 定义切入点：controller包下的所有方法
     @Pointcut("execution(* com.soeasyeasy.*.controller..*.*(..))")
@@ -68,7 +72,7 @@ public class LoggingAspect {
             // 一次性打印完整日志
             //log.info("RequestLog: {}", JSON.toJSONString(logInfo));
             log.info("RequestLog: {}", JSON.toJSONString(logInfo, JSONWriter.Feature.WriteNulls, JSONWriter.Feature.ReferenceDetection));
-
+            logService.saveLog(logInfo);
             return result;
 
         } catch (Exception e) {
@@ -80,6 +84,7 @@ public class LoggingAspect {
 
             // 异常日志
             log.error("RequestLog: {}", JSON.toJSONString(logInfo, JSONWriter.Feature.WriteNulls, JSONWriter.Feature.ReferenceDetection));
+            logService.saveLog(logInfo);
             throw e;
         }
     }
@@ -102,21 +107,5 @@ public class LoggingAspect {
         return ip;
     }
 
-    // 日志信息封装类
-    @Data
-    private static class LogInfo {
-        private String traceId;
-        private String requestUri;
-        private String method;
-        private String clientIp;
-        private String className;
-        private String methodName;
-        private Object[] args;
-        private Object result;
-        private long duration;
-        private boolean success = true;
-        private String exception;
-        private String errorMessage;
-        private long startTime;
-    }
+
 }

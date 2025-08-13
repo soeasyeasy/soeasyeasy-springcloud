@@ -35,5 +35,9 @@
             <groupId>com.soeasyeasy.security</groupId>
             <artifactId>technology-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.soeasyeasy</groupId>
+            <artifactId>base-nosql-es</artifactId>
+        </dependency>
     </dependencies>
 </project>

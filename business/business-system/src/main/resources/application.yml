@@ -6,6 +6,9 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/soeasyeasy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useInformationSchema=true&nullNamePatternMatchesAll=true
     username: root
     password: root
+  elasticsearch:
+    uris: http://127.0.0.1:9200
+    socket-timeout: 10s
 logging:
   level:
     com:

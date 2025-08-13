@@ -2,8 +2,8 @@
 
 - 集成vault
 - SpringSecurity 注解解析 设计思想熟悉
-- 返回值增加traceId
-- 日志记录进es或者click house
+- 返回值增加traceId ✅放到响应header上了
+- 日志记录进es或者click house ✅以实现进es 通过elk
 - keyCloak 集成 单点登录 auth2协议熟悉
 
 # 架构
@@ -27,6 +27,7 @@ technolgy:技术<br>
     - Service 接口及实现 ✅
     - RESTful Controller ✅
     - 分页查询封装✅
+    - SpringSecurity 注解解析
 
 - **对象分层转换**  
   通过 MapStruct 自动生成：
