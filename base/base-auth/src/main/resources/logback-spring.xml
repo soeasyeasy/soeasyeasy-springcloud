@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="LOG_PATH" source="logger.path"/>
+    <property name="SERVICE_NAME" value="sed-warehouse"/>
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} [%X{TRACE_ID:-}]: %msg%n</pattern>
+            <!--设置编码-->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--文件输出 -->
+    <appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/${SERVICE_NAME}-log.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            　　　　　　　　
+            <fileNamePattern>${LOG_PATH}/${SERVICE_NAME}-log.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+            　　　　　　
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} : %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 只输出INFO以上级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+    </appender>
+    <!-- 异常文件输出 -->
+    <appender name="errorLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${LOG_PATH}/${SERVICE_NAME}-error.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            　　　　　　　　
+            <fileNamePattern>${LOG_PATH}/${SERVICE_NAME}-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>10GB</totalSizeCap>
+            　　　　　　
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 只输出ERROR以上级别的日志 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+    </appender>
+
+    <!-- 本地调试环境只输出控制台 -->
+    <springProfile name="default,local">
+        <root level="INFO">
+            <appender-ref ref="console"/>
+        </root>
+    </springProfile>
+    <springProfile name="dev,test">
+        <root level="INFO">
+            <appender-ref ref="console"/>
+        </root>
+    </springProfile>
+    <!--    uat环境生产环境只输出日志文件 -->
+    <springProfile name="uat,prod,prep">
+        <root level="INFO">
+            <appender-ref ref="console"/>
+        </root>
+    </springProfile>
+
+</configuration>

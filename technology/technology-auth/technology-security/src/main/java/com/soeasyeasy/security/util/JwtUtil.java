@@ -21,8 +21,8 @@ public class JwtUtil {
 
 
     // 10 天
-    //private final long EXPIRATION_TIME = 864_000_000;
-    private final long EXPIRATION_TIME = 10;
+    private final long EXPIRATION_TIME = 864_000_000;
+    //private final long EXPIRATION_TIME = 10;
 
     /**
      * 生成 JWT Token

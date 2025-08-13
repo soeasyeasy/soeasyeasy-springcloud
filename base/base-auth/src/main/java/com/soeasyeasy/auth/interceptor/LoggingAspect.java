@@ -1,15 +1,23 @@
 package com.soeasyeasy.auth.interceptor;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONWriter;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.util.UUID;
+
+/**
+ * @author hc
+ */
 @Slf4j
 @Aspect
 @Component
@@ -21,56 +29,94 @@ public class LoggingAspect {
     public void requestLog() {
     }
 
-    // 在方法执行前执行
-    @Before("requestLog()")
-    public void doBefore(JoinPoint joinPoint) {
+    // 环绕通知：统一收集信息，最后一次性打印
+    @Around("requestLog()")
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = null;
         if (attributes != null) {
             request = attributes.getRequest();
         }
 
-        log.info("===== 方法开始执行 =====");
-        if (request != null) {
-            log.info("请求路径: {}", request.getRequestURI());
-            log.info("请求方法: {}", request.getMethod());
-            log.info("客户端IP : {}", getClientIp(request));
-        }
-        log.info("方法名: {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
-        Object[] args = joinPoint.getArgs();
-        for (Object arg : args) {
-            log.info("入参: {}", arg);
-        }
-    }
+        // 构建日志上下文
+        LogInfo logInfo = new LogInfo();
+        logInfo.setStartTime(System.currentTimeMillis());
+        logInfo.setTraceId(request.getHeader(TraceIdFilter.TRACE_ID_HEADER));
+        // 加入 MDC 便于日志检索
 
-    // 在方法执行后执行
-    @AfterReturning(pointcut = "requestLog()", returning = "result")
-    public void doAfterReturning(Object result) {
-        log.info("方法返回值: {}", JSON.toJSONString(result));
-    }
 
-    // 环绕通知：可用于记录耗时、处理异常等
-    @Around("requestLog()")
-    public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        long startTime = System.currentTimeMillis();
         try {
-            Object result = proceedingJoinPoint.proceed();
-            long duration = System.currentTimeMillis() - startTime;
-            log.info("方法耗时: {} ms", duration);
-            log.info("===== 方法执行结束 =====");
+            // 收集请求信息
+            if (request != null) {
+                logInfo.setRequestUri(request.getRequestURI());
+                logInfo.setMethod(request.getMethod());
+                logInfo.setClientIp(getClientIp(request));
+            }
+            logInfo.setClassName(joinPoint.getSignature().getDeclaringTypeName());
+            logInfo.setMethodName(joinPoint.getSignature().getName());
+            logInfo.setArgs(joinPoint.getArgs());
+
+            // 执行方法
+            Object result = joinPoint.proceed();
+            long duration = System.currentTimeMillis() - logInfo.getStartTime();
+
+            // 设置返回值和耗时
+            logInfo.setResult(result);
+            logInfo.setDuration(duration);
+            logInfo.setSuccess(true);
+
+            // 一次性打印完整日志
+            //log.info("RequestLog: {}", JSON.toJSONString(logInfo));
+            log.info("RequestLog: {}", JSON.toJSONString(logInfo, JSONWriter.Feature.WriteNulls, JSONWriter.Feature.ReferenceDetection));
+
             return result;
+
         } catch (Exception e) {
-            log.error("方法执行异常: ", e);
+            long duration = System.currentTimeMillis() - logInfo.getStartTime();
+            logInfo.setDuration(duration);
+            logInfo.setSuccess(false);
+            logInfo.setException(e.getClass().getSimpleName());
+            logInfo.setErrorMessage(e.getMessage());
+
+            // 异常日志
+            log.error("RequestLog: {}", JSON.toJSONString(logInfo, JSONWriter.Feature.WriteNulls, JSONWriter.Feature.ReferenceDetection));
             throw e;
         }
     }
 
+    private String generateTraceId() {
+        return UUID.randomUUID().toString().replace("-", "").toUpperCase();
+    }
 
     private String getClientIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.isEmpty() || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
         return ip;
+    }
+
+    // 日志信息封装类
+    @Data
+    private static class LogInfo {
+        private String traceId;
+        private String requestUri;
+        private String method;
+        private String clientIp;
+        private String className;
+        private String methodName;
+        private Object[] args;
+        private Object result;
+        private long duration;
+        private boolean success = true;
+        private String exception;
+        private String errorMessage;
+        private long startTime;
     }
 }

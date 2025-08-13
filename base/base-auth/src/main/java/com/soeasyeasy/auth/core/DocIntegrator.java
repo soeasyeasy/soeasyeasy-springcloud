@@ -2,7 +2,6 @@ package com.soeasyeasy.auth.core;
 
 import com.soeasyeasy.auth.entity.ApiEndpointInfo;
 import com.soeasyeasy.auth.entity.ModelInfo;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,7 @@ public class DocIntegrator {
     @Value("${spring.application.root-path:src/main/java}")
     private String projectRoot;
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         long startTime = System.currentTimeMillis();
         Path rootPath = PathUtil.getCallerModuleRootPath();

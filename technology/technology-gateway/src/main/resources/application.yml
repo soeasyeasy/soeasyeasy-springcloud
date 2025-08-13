@@ -7,7 +7,7 @@ logging:
   level:
     com.soeasyeasy: debug
     org.springframework.cloud.gateway: debug
-    reactor.netty.http.client: DEBUG
+    reactor.netty.http.client: info
 
 spring:
   application:
