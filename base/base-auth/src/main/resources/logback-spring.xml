@@ -2,7 +2,7 @@
 <configuration>
     <!--    <springProperty scope="context" name="LOG_PATH" source="logger.path"/>-->
     <property name="SERVICE_NAME" value="business-system"/>
-    <property name="LOG_PATH" value="business-system"/>
+    <property name="LOG_PATH" value="logs"/>
 
     <!-- 控制台输出 -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
@@ -14,6 +14,7 @@
         </encoder>
     </appender>
 
+    <!-- 一、LOGSTASH 同步-->
     <!--    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
     <!--        <destination>localhost:5000</destination>-->
     <!--        <encoder class="net.logstash.logback.encoder.LogstashEncoder">-->
@@ -22,31 +23,31 @@
     <!--        </encoder>-->
     <!--    </appender>-->
 
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:5000</destination>
+    <!--二、LOGSTASH 异步-->
+    <!--    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+    <!--        <destination>localhost:5000</destination>-->
 
-        <!-- 使用异步发送，减少阻塞 -->
-        <eventDeliveryStrategy class="net.logstash.logback.async.AwaitingEventDeliveryStrategy"/>
+    <!--        &lt;!&ndash; 使用异步发送，减少阻塞 &ndash;&gt;-->
+    <!--        <eventDeliveryStrategy class="net.logstash.logback.async.AwaitingEventDeliveryStrategy"/>-->
 
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <timestamp/>
-                <logLevel/>
-                <message/>
-                <loggerName/>
-                <mdc/>
-                <stackTrace/>
-            </providers>
-        </encoder>
-    </appender>
-
-    <!-- 包裹成异步 -->
-    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <appender-ref ref="LOGSTASH"/>
-        <queueSize>100</queueSize>
-        <discardingThreshold>0</discardingThreshold>
-        <includeCallerData>false</includeCallerData>
-    </appender>
+    <!--        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">-->
+    <!--            <providers>-->
+    <!--                <timestamp/>-->
+    <!--                <logLevel/>-->
+    <!--                <message/>-->
+    <!--                <loggerName/>-->
+    <!--                <mdc/>-->
+    <!--                <stackTrace/>-->
+    <!--            </providers>-->
+    <!--        </encoder>-->
+    <!--    </appender>-->
+    <!--    &lt;!&ndash; 包裹成异步 &ndash;&gt;-->
+    <!--    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">-->
+    <!--        <appender-ref ref="LOGSTASH"/>-->
+    <!--        <queueSize>100</queueSize>-->
+    <!--        <discardingThreshold>0</discardingThreshold>-->
+    <!--        <includeCallerData>false</includeCallerData>-->
+    <!--    </appender>-->
 
 
     <!--文件输出 -->
@@ -63,7 +64,7 @@
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} : %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} %X{TRACE_ID:-}: %msg%n</pattern>
             <charset>UTF-8</charset>
         </encoder>
         <!-- 只输出INFO以上级别的日志 -->
@@ -101,7 +102,7 @@
         <root level="INFO">
             <appender-ref ref="console"/>
             <!--            <appender-ref ref="logFile"/>-->
-            <appender-ref ref="LOGSTASH"/>
+            <appender-ref ref="logFile"/>
         </root>
     </springProfile>
     <springProfile name="dev,test">
