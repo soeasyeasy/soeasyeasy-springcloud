@@ -15,11 +15,11 @@ public class LogInfo {
     private String clientIp;
     private String className;
     private String methodName;
-    private Object[] args;
-    private Object result;
+    private String args;
+    private String result;
     private long duration;
     private boolean success = true;
     private String exception;
     private String errorMessage;
-    private long startTime;
+    private String startTime;
 }

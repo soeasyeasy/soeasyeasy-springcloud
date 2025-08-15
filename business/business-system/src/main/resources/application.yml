@@ -3,9 +3,9 @@ spring:
     name: see-system
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/soeasyeasy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useInformationSchema=true&nullNamePatternMatchesAll=true
+    url: jdbc:mysql://60.205.112.175:13306/soeasyeasy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&useInformationSchema=true&nullNamePatternMatchesAll=true
     username: root
-    password: root
+    password: 1hblsqt@mysql
   elasticsearch:
     uris: http://127.0.0.1:9200
     socket-timeout: 10s
@@ -13,7 +13,21 @@ logging:
   level:
     com:
       soeasyeasy: debug
+  exclude-uris:
+    - /system/logs/**
+    - /actuator/**
+    - /actuator
+    - /swagger/**
+    - /swagger-ui/**
+    - /v3/api-docs/**
+    - /health
+    - /healthz
+    - /favicon.ico
+    - /assets/**
+    - /static/**
+    - /webjars/**
 server:
   port: 8081
   servlet:
     context-path: /system
+

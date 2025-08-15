@@ -20,4 +20,7 @@ public class LogEsServiceImpl implements LogService {
     public void saveLog(LogInfo logInfo) {
         elasticsearchUtil.saveDocument("log", logInfo, null);
     }
+
+    public void queryLog() {
+    }
 }

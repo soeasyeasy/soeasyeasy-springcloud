@@ -16,6 +16,7 @@ import co.elastic.clients.elasticsearch.indices.CreateIndexResponse;
 import co.elastic.clients.elasticsearch.indices.DeleteIndexResponse;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
 import co.elastic.clients.json.JsonData;
+import com.soeasyeasy.common.entity.PageResult;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -259,12 +260,18 @@ public class ElasticsearchUtil {
      */
     public <T> SearchResponse<T> searchByKeyword(String indexName, String keyword, Class<T> clazz, int from, int size) {
         try {
-            Query query = Query.of(q -> q
-                    .multiMatch(m -> m
-                            .query(keyword)
-                            .fields("*") // 匹配所有字段，可根据需要指定具体字段
-                    )
-            );
+            Query query;
+            if (keyword == null || keyword.trim().isEmpty()) {
+                // ✅ 空关键词：查询所有文档
+                query = Query.of(q -> q.matchAll(m -> m));
+            } else {
+                query = Query.of(q -> q
+                        .multiMatch(m -> m
+                                .query(keyword)
+                                .fields("*") // 匹配所有字段，可根据需要指定具体字段
+                        )
+                );
+            }
 
             SearchResponse<T> response = elasticsearchClient.search(s -> s
                             .index(indexName)
@@ -610,5 +617,19 @@ public class ElasticsearchUtil {
         }
         TotalHits totalHits = response.hits().total();
         return totalHits.value();
+    }
+
+    /**
+     * 返回分页
+     */
+    public static <T> PageResult<T> extractPageResult(SearchResponse<T> response, int pageFrom, int pageSize) {
+        List<T> documents = extractDocuments(response);
+        long totalHits = getTotalHits(response);
+        PageResult<T> pageResult = new PageResult<T>();
+        pageResult.setRecords(documents);
+        pageResult.setTotal(totalHits);
+        pageResult.setCurrent((long) pageFrom);
+        pageResult.setSize((long) pageSize);
+        return pageResult;
     }
 }

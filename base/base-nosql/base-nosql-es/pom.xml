@@ -27,5 +27,9 @@
             <artifactId>logstash-logback-encoder</artifactId>
             <version>7.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.soeasyeasy</groupId>
+            <artifactId>base-common</artifactId>
+        </dependency>
     </dependencies>
 </project>
