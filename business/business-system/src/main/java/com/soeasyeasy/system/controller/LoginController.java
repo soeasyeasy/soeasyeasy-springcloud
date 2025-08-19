@@ -1,7 +1,8 @@
 package com.soeasyeasy.system.controller;
 
+import com.soeasyeasy.common.entity.LoginDTO;
+import com.soeasyeasy.common.util.TenantContext;
 import com.soeasyeasy.security.util.JwtUtil;
-import com.soeasyeasy.system.entity.dto.LoginDTO;
 import com.soeasyeasy.system.entity.param.LoginReq;
 import com.soeasyeasy.system.service.impl.LoginContext;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,10 @@ public class LoginController {
         if (StringUtils.isBlank(loginType)) {
             throw new IllegalArgumentException("登录类型不能为空");
         }
+        TenantContext.setTenant(loginReq.getTenantId());
         LoginDTO loginDTO = LoginContext.executeLogin(loginType, loginReq);
-        loginDTO.setToken(jwtUtil.generateToken(loginDTO.getId()));
+        loginDTO.setTenantId(loginReq.getTenantId());
+        loginDTO.setToken(jwtUtil.generateToken(loginDTO));
         return loginDTO;
     }
 

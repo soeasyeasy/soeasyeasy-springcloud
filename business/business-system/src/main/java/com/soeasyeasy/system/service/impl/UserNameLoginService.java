@@ -1,10 +1,10 @@
 package com.soeasyeasy.system.service.impl;
 
+import com.soeasyeasy.common.entity.LoginDTO;
 import com.soeasyeasy.security.config.CustomAuthenticationToken;
 import com.soeasyeasy.security.config.LoginType;
 import com.soeasyeasy.system.convertor.UserConverter;
 import com.soeasyeasy.system.entity.UserEntity;
-import com.soeasyeasy.system.entity.dto.LoginDTO;
 import com.soeasyeasy.system.entity.param.LoginReq;
 import com.soeasyeasy.system.service.LoginService;
 import jakarta.annotation.PostConstruct;

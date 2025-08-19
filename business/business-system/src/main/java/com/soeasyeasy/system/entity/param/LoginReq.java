@@ -13,6 +13,10 @@ public class LoginReq {
      */
     private String loginType;
     /**
+     * 租户id
+     */
+    private String tenantId;
+    /**
      * 手机号
      */
     private String phone;

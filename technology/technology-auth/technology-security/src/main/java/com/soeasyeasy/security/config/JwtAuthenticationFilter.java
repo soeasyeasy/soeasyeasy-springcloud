@@ -1,5 +1,6 @@
 package com.soeasyeasy.security.config;
 
+import com.soeasyeasy.common.util.TenantContext;
 import com.soeasyeasy.security.util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -50,6 +51,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwt = authorizationHeader.substring(7);
             try {
                 username = jwtUtil.getUsernameFromToken(jwt);
+                String tenantId = jwtUtil.getTenantIdFromToken(jwt);
+                log.info("tenantId:{},username:{}", tenantId, username);
+                if (tenantId != null) {
+                    TenantContext.setTenant(tenantId);
+                } else if (TenantContext.getTenant() == null) {
+                    TenantContext.setTenant("test");
+                }
             } catch (IllegalArgumentException e) {
                 log.error("Unable to get JWT Token");
                 throw new BadCredentialsException("非法token");

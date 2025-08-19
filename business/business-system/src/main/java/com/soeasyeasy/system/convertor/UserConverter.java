@@ -1,8 +1,8 @@
 package com.soeasyeasy.system.convertor;
 
 import com.soeasyeasy.common.converter.BaseEntityConverter;
+import com.soeasyeasy.common.entity.LoginDTO;
 import com.soeasyeasy.system.entity.UserEntity;
-import com.soeasyeasy.system.entity.dto.LoginDTO;
 import com.soeasyeasy.system.entity.dto.UserDTO;
 import com.soeasyeasy.system.entity.param.UserReq;
 import org.mapstruct.Mapper;

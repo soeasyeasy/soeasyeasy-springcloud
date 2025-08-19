@@ -103,6 +103,7 @@
             <appender-ref ref="console"/>
             <!--            <appender-ref ref="logFile"/>-->
             <appender-ref ref="logFile"/>
+            <appender-ref ref="errorLogFile"/>
         </root>
     </springProfile>
     <springProfile name="dev,test">

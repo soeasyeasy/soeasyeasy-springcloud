@@ -39,5 +39,9 @@
             <groupId>com.soeasyeasy</groupId>
             <artifactId>base-nosql-es</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.soeasyeasy</groupId>
+            <artifactId>technology-tenant</artifactId>
+        </dependency>
     </dependencies>
 </project>

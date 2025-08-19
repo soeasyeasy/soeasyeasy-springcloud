@@ -1,6 +1,6 @@
 package com.soeasyeasy.system.service.impl;
 
-import com.soeasyeasy.system.entity.dto.LoginDTO;
+import com.soeasyeasy.common.entity.LoginDTO;
 import com.soeasyeasy.system.entity.param.LoginReq;
 import com.soeasyeasy.system.service.LoginService;
 import jakarta.annotation.PostConstruct;

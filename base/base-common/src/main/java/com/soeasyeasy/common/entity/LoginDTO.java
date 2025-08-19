@@ -1,4 +1,4 @@
-package com.soeasyeasy.system.entity.dto;
+package com.soeasyeasy.common.entity;
 
 import lombok.Data;
 
@@ -13,6 +13,10 @@ import java.util.List;
 @Data
 public class LoginDTO {
     private String id;
+    /**
+     * 租户id
+     */
+    private String tenantId;
     /**
      * 外部主键
      */

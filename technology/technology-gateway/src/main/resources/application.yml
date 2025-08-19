@@ -18,7 +18,7 @@ spring:
     gateway:
       default-filters:
       routes:
-        - id: see-user
+        - id: see-system
           uri: http://localhost:8081
           predicates:
             - Path=/system/**

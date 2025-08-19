@@ -1,0 +1,23 @@
+#spring:
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 60.205.112.175:8848 # Nacos 服务器地址
+#        namespace: public # 或你指定的命名空间
+#        # 如果 Nacos 启用了认证
+#        # username: nacos
+#        # password: your_nacos_password
+#      config:
+#        server-addr: 60.205.112.175:8848
+#        namespace: 450533bf-73ac-4bee-a9f3-94ce306b9339
+#        # group: TENANT-META # 方式1: 在 bootstrap.yml 中指定 group
+#        file-extension: yaml
+#        # 方式2: 通过 shared-configs 引入特定配置
+#        shared-configs:
+#          - data-id: tenants.yaml
+#            group: TENANT-META # 指定租户配置所在的组
+#            refresh: true # 开启动态刷新
+#  # 👇👇👇 关键：显式导入 Nacos 配置 👇👇👇
+#  config:
+#    import:
+#      - nacos:tenants.yaml?group=TENANT-META&namespace=450533bf-73ac-4bee-a9f3-94ce306b9339&serverAddr=60.205.112.175:8848

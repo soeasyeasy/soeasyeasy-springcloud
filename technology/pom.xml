@@ -17,6 +17,7 @@
         <module>technology-freemarker</module>
         <module>technology-sso</module>
         <module>technology-gateway</module>
+        <module>technology-tenant</module>
     </modules>
 
     <properties>
