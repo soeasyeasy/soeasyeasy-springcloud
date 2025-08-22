@@ -1,72 +1,62 @@
 package com.soeasyeasy.tenant.config;
 
 import com.alibaba.cloud.nacos.annotation.NacosConfigListener;
-import jakarta.annotation.Resource;
+import com.soeasyeasy.tenant.config.tenant.MultiTenantProperties;
+import com.soeasyeasy.tenant.config.tenant.TenantConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import javax.sql.DataSource;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 多租户数据源配置类
+ * 支持通过 Nacos 动态刷新租户数据源
+ *
  * @author hc
  */
 @Configuration
-@RefreshScope
 @Slf4j
 @EnableConfigurationProperties(MultiTenantProperties.class)
 public class TenantDataSourceConfig {
 
+    private static final String DEFAULT_TENANT_ID = "test";
     private final MultiTenantProperties properties;
 
     public TenantDataSourceConfig(MultiTenantProperties properties) {
         this.properties = properties;
     }
 
-    @Resource
-    private MultiTenantDataSource multiTenantDataSource;
-
     @Bean
     @Primary
-    @RefreshScope // 使 bean 在 Nacos 配置更新时重新构建
     public MultiTenantDataSource multiTenantDataSource() {
         MultiTenantDataSource dataSource = new MultiTenantDataSource();
-
-        Map<Object, Object> targetDataSources = new ConcurrentHashMap<>();
-        List<TenantConfig> tenants = properties.getTenants();
-
-        if (tenants == null || tenants.isEmpty()) {
-            throw new IllegalStateException("No tenants configuration found!");
-        }
-        for (TenantConfig tenant : tenants) {
-            DataSource ds = DataSourceBuilder.create()
-                    .url(tenant.getDbUrl())
-                    .username(tenant.getDbUsername())
-                    .password(tenant.getDbPassword())
-                    .driverClassName("com.mysql.cj.jdbc.Driver")
-                    .build();
-            log.info("init tenant dataSource: {}:{}", tenant.getId(), tenant.getDbUrl());
-            targetDataSources.put(tenant.getId(), ds);
-        }
-        dataSource.setTargetDataSources(targetDataSources);
-        dataSource.setDefaultTargetDataSource(targetDataSources.get("test"));
-        dataSource.afterPropertiesSet();
+        // 初始化时加载一次
+        dataSource.refreshDataSources(getTenants(), DEFAULT_TENANT_ID);
         return dataSource;
     }
 
+    private List<TenantConfig> getTenants() {
+        return properties.getTenants();
 
-    @NacosConfigListener(dataId = "tenants.yaml", group = "TENANT-META")
-    public void onChange(String config) {
-        log.info("Nacos config changed: {}", config);
-        multiTenantDataSource.refreshDataSources(properties.getTenants());
     }
 
+    /**
+     * 监听 Nacos 配置变更，触发数据源刷新
+     */
+    @NacosConfigListener(dataId = "tenants.yaml", group = "TENANT-META")
+    public void onConfigChange(String config) {
+        log.info("Received Nacos config update for tenants.yaml. Reloading...");
 
+        try {
+            List<TenantConfig> updatedTenants = getTenants();
+            MultiTenantDataSource dataSource = multiTenantDataSource();
+            dataSource.refreshDataSources(updatedTenants, DEFAULT_TENANT_ID);
+            log.info("Successfully reloaded {} tenant data sources from Nacos.", updatedTenants.size());
+        } catch (Exception e) {
+            log.error("Failed to reload tenant data sources from Nacos config", e);
+        }
+    }
 }
