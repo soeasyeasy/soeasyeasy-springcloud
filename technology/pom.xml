@@ -18,6 +18,7 @@
         <module>technology-sso</module>
         <module>technology-gateway</module>
         <module>technology-tenant</module>
+        <module>technology-ai</module>
     </modules>
 
     <properties>

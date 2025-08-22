@@ -1,0 +1,23 @@
+# application.yml
+spring:
+  application:
+    name: see-ai
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:sk-ebb40a91ce1e4d03958777581121828c}
+      base-url: https://dashscope.aliyuncs.com/compatible-mode/
+      chat:
+        options:
+          model: qwen-plus
+      embedding:
+        options:
+          model: text-embedding-v4
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://60.205.112.175:15432/postgres
+
+server:
+  port: 8082
+  servlet:
+    context-path: /ai

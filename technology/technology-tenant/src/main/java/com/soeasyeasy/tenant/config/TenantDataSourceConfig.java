@@ -1,6 +1,6 @@
 package com.soeasyeasy.tenant.config;
 
-import com.alibaba.cloud.nacos.annotation.NacosConfigListener;
+import com.alibaba.nacos.api.config.annotation.NacosConfigListener;
 import com.soeasyeasy.tenant.config.tenant.MultiTenantProperties;
 import com.soeasyeasy.tenant.config.tenant.TenantConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +46,7 @@ public class TenantDataSourceConfig {
     /**
      * 监听 Nacos 配置变更，触发数据源刷新
      */
-    @NacosConfigListener(dataId = "tenants.yaml", group = "TENANT-META")
+    @NacosConfigListener(dataId = "tenants.yaml", groupId = "TENANT-META")
     public void onConfigChange(String config) {
         log.info("Received Nacos config update for tenants.yaml. Reloading...");
 
