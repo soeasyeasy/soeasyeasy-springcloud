@@ -39,9 +39,13 @@
             <groupId>com.soeasyeasy</groupId>
             <artifactId>base-nosql-es</artifactId>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.soeasyeasy</groupId>-->
+        <!--            <artifactId>technology-tenant</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
-            <groupId>com.soeasyeasy</groupId>
-            <artifactId>technology-tenant</artifactId>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
         </dependency>
     </dependencies>
 </project>

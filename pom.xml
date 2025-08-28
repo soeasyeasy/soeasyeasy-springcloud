@@ -41,7 +41,8 @@
         <xxl.version>2.2.0-SNAPSHOT</xxl.version>
         <guava.version>33.4.0-jre</guava.version>
         <druid.version>1.2.24</druid.version>
-        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
+        <mybatis-plus.version>3.5.6</mybatis-plus.version>
+        <mybatis-spring.version>3.0.3</mybatis-spring.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <swagger.version>2.2.9</swagger.version>
@@ -224,6 +225,17 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mybatis-spring</artifactId>
+                        <groupId>org.mybatis</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <version>${mybatis-spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>

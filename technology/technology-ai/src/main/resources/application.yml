@@ -1,4 +1,7 @@
-# application.yml
+server:
+  port: 8082
+  servlet:
+    context-path: /ai
 spring:
   application:
     name: see-ai
@@ -15,9 +18,12 @@ spring:
   datasource:
     username: postgres
     password: postgres
-    url: jdbc:postgresql://60.205.112.175:15432/postgres
+    url: jdbc:postgresql://60.205.112.175:15432/postgres?stringtype=unspecified
 
-server:
-  port: 8082
-  servlet:
-    context-path: /ai
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/*.xml
+  global-config:
+    db-config:
+      id-type: assign_uuid  # 使用 UUID

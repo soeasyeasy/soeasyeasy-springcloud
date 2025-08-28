@@ -1,24 +1,21 @@
 package com.soeasyeasy.ai.controller;
 
-import com.soeasyeasy.ai.service.FileStoreService;
+import com.soeasyeasy.ai.service.FileStoreServiceBak;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+
 /**
- * @Project: com.ningning0111.controller
- * @Author: pgthinker
- * @GitHub: https://github.com/ningning0111
- * @Date: 2024/4/25 18:52
- * @Description:
+ * @author hc
  */
 @RequestMapping("/file")
 @RestController
 public class FileStoreController {
-    private final FileStoreService fileStoreService;
+    private final FileStoreServiceBak fileStoreService;
 
-    public FileStoreController(FileStoreService fileStoreService) {
+    public FileStoreController(FileStoreServiceBak fileStoreService) {
         this.fileStoreService = fileStoreService;
     }
 
