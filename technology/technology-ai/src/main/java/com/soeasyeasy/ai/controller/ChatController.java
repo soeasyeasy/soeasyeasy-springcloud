@@ -12,6 +12,7 @@ import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ import java.util.Map;
 public class ChatController {
 
     // 注入同步调用的 ChatClient（用于获取完整响应）
-    private final ChatClient chatClient;
+    private final ChatClient cloudChatClient;
     // 注入流式调用的 StreamingChatClient（用于实时流式输出）
     private final StreamingChatClient streamingChatClient;
     @Autowired
@@ -64,11 +65,11 @@ public class ChatController {
     /**
      * 构造函数注入所需的 AI 客户端
      *
-     * @param chatClient          同步聊天客户端
+     * @param cloudChatClient          同步聊天客户端
      * @param streamingChatClient 流式聊天客户端
      */
-    public ChatController(ChatClient chatClient, StreamingChatClient streamingChatClient) {
-        this.chatClient = chatClient;
+    public ChatController(@Qualifier("openAiChatClient")ChatClient cloudChatClient, @Qualifier("ollamaChatClient")StreamingChatClient streamingChatClient) {
+        this.cloudChatClient = cloudChatClient;
         this.streamingChatClient = streamingChatClient;
     }
 
@@ -81,7 +82,7 @@ public class ChatController {
      */
     @GetMapping("/demo")
     public String demo(String prompt) {
-        String response = chatClient.call(prompt);
+        String response = cloudChatClient.call(prompt);
         return response;
     }
 
@@ -117,7 +118,7 @@ public class ChatController {
         }
 
         // 创建包含完整上下文的 Prompt 并调用 AI
-        ChatResponse chatResponse = chatClient.call(new Prompt(historyMessage));
+        ChatResponse chatResponse = cloudChatClient.call(new Prompt(historyMessage));
         AssistantMessage assistantMessage = chatResponse.getResult().getOutput();
 
         // 将 AI 回复也加入历史记录
@@ -144,7 +145,7 @@ public class ChatController {
             historyMessage.add(0, new SystemMessage(systemPrompt));
         }
 
-        ChatResponse chatResponse = chatClient.call(new Prompt(historyMessage));
+        ChatResponse chatResponse = cloudChatClient.call(new Prompt(historyMessage));
         AssistantMessage assistantMessage = chatResponse.getResult().getOutput();
         historyMessage.add(assistantMessage);
 
@@ -164,7 +165,7 @@ public class ChatController {
         PromptTemplate promptTemplate = new PromptTemplate(templateResource);
         // 使用传入的参数填充模板
         Prompt prompt = promptTemplate.create(Map.of("author", author));
-        ChatResponse chatResponse = chatClient.call(prompt);
+        ChatResponse chatResponse = cloudChatClient.call(prompt);
         AssistantMessage assistantMessage = chatResponse.getResult().getOutput();
         return assistantMessage.getContent();
     }
@@ -186,7 +187,7 @@ public class ChatController {
         Prompt prompt = promptTemplate.create(
                 Map.of("description", description, "language", language, "methodName", methodName)
         );
-        ChatResponse chatResponse = chatClient.call(prompt);
+        ChatResponse chatResponse = cloudChatClient.call(prompt);
         AssistantMessage assistantMessage = chatResponse.getResult().getOutput();
         return assistantMessage.getContent();
     }
@@ -215,7 +216,7 @@ public class ChatController {
         PromptTemplate promptTemplate = new PromptTemplate(template);
         Prompt prompt = promptTemplate.create(Map.of("author", author));
 
-        ChatResponse chatResponse = chatClient.call(prompt);
+        ChatResponse chatResponse = cloudChatClient.call(prompt);
         String content = chatResponse.getResult().getOutput().getContent();
 
         try {

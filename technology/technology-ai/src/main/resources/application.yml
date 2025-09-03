@@ -13,12 +13,22 @@ spring:
         options:
           model: qwen-plus
       embedding:
+        enabled: false
         options:
           model: text-embedding-v4
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: qwen2.5-coder
+      embedding:
+        model: bge-m3
   datasource:
     username: postgres
     password: postgres
     url: jdbc:postgresql://60.205.112.175:15432/postgres?stringtype=unspecified
+logging:
+  level:
+    com.soeasyeasy: debug
 
 mybatis-plus:
   configuration:

@@ -271,11 +271,11 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>jakarta.validation</groupId>-->
+<!--            <artifactId>jakarta.validation-api</artifactId>-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

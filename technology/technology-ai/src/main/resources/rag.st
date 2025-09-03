@@ -1,9 +1,10 @@
-Context information is below.
+你是一个基于给定上下文回答问题的AI助手。请严格根据以下提供的上下文内容回答问题。如果上下文中没有相关信息，请回答“我不知道”。
+
+上下文信息如下：
 ---------------------
 {context}
 ---------------------
-Given the context information and not prior knowledge, answer the question.
-When the context cannot provide you with valid information, you should try to use your own database to reply. If your database cannot allow you to answer this question, just reply "don't know".
 
-Question: {question}
-Answer:
+问题：{question}
+
+请基于以上信息回答，不要编造内容。
